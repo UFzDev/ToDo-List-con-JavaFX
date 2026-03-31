@@ -1,10 +1,12 @@
 package ufzdev.todo_list.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ufzdev.todo_list.services.AuthService;
 
 public class RegisterController {
 
@@ -22,12 +24,18 @@ public class RegisterController {
     @FXML
     public void handleRegister() {
         String name = nameField.getText();
-        String username = usernameField.getText();
+        String user = usernameField.getText();
         String email = emailField.getText();
-        String password = passwordField.getText();
+        String pasword = passwordField.getText();
 
-        System.out.println("REGISTER | Name: " + name + " | Username: " + username + " | Email: " + email + " | Pass length: " + password.length());
-        closeModal();
+        try {
+            AuthService.registerUser(name, user, email, pasword);
+
+            System.out.println("Registro exitoso en Firebase para: " + email);
+
+        } catch (Exception e) {
+            System.out.println("Error durante el registro: " + e.getMessage());
+        }
     }
 
     @FXML

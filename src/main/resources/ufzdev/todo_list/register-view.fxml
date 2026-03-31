@@ -73,7 +73,7 @@
             <Region VBox.vgrow="ALWAYS"/>
 
             <HBox spacing="10.0">
-                <Button text="Crear cuenta"
+                <Button fx:id="btnRegister" text="Crear cuenta"
                         onAction="#handleRegister"
                         styleClass="btn-register-primary"
                         prefWidth="0.0"
