@@ -23,6 +23,7 @@ public class FirebaseConfig {
 
                 FirebaseApp.initializeApp(options);
             }catch (Exception e) {
+                AlertUtils.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
                 System.out.println("Error al inicializar Firebase: " + e.getMessage());
             }
         }

@@ -40,6 +40,7 @@ dependencies {
 
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
     implementation("com.google.firebase:firebase-admin:9.8.0")
+    implementation("org.controlsfx:controlsfx:11.1.2")
 }
 
 tasks.withType<Test> {

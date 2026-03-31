@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.cloud.firestore.Firestore;
+import ufzdev.todo_list.util.AlertUtils;
 import ufzdev.todo_list.util.FirebaseConfig;
 
 import java.io.IOException;
@@ -17,9 +18,8 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         try {
             firestore = FirebaseConfig.initialize();
-            String projectId = firestore.getOptions().getProjectId();
-            System.out.println("Project ID: " + projectId);
         } catch (Exception e) {
+            AlertUtils.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
             System.out.println("Error: " + e.getMessage());
         }
 
@@ -27,6 +27,7 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
         stage.setTitle("Login - ToDo List");
         //stage.setMaximized(true);
+        scene.getStylesheets().add(getClass().getResource("css/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
@@ -36,8 +37,10 @@ public class Main extends Application {
         if (firestore != null) {
             try {
                 firestore.close();
+                AlertUtils.showError("Cierre de Firestore", "Firestore cerrado correctamente.");
                 System.out.println("Firestore cerrado correctamente.");
             } catch (Exception e) {
+                AlertUtils.showError("Error al cerrar Firestore", "No se pudo cerrar Firestore. Verifique la configuración.");
                 System.out.println("No se pudo cerrar Firestore: " + e.getMessage());
             }
         }

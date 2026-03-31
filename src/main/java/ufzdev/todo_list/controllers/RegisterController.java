@@ -1,12 +1,12 @@
 package ufzdev.todo_list.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import ufzdev.todo_list.services.AuthService;
+import ufzdev.todo_list.services.UserService;
+import ufzdev.todo_list.util.AlertUtils;
 
 public class RegisterController {
 
@@ -29,11 +29,12 @@ public class RegisterController {
         String pasword = passwordField.getText();
 
         try {
-            AuthService.registerUser(name, user, email, pasword);
-
-            System.out.println("Registro exitoso en Firebase para: " + email);
+            UserService.registerUser(name, user, email, pasword);
+            AlertUtils.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + user + "!");
+            System.out.println("Registro exitoso en Firebase para: " + user);
 
         } catch (Exception e) {
+            AlertUtils.showError("Error durante el registro", "Error: " + e.getMessage());
             System.out.println("Error durante el registro: " + e.getMessage());
         }
     }

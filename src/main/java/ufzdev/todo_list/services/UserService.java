@@ -8,7 +8,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AuthService {
+public class UserService {
     public static boolean autenticate(String email, String password) throws Exception {
         try {
             // Verificamos que el usuario existe en Firebase Auth
@@ -48,5 +48,18 @@ public class AuthService {
 
         // Guardamos usando el UID como nombre del documento
         db.collection("usuarios").document(uid).set(userData).get();
+    }
+
+    public static String username(String email) throws Exception {
+        Firestore db = FirestoreClient.getFirestore();
+        var querySnapshot = db.collection("usuarios").whereEqualTo("correo", email).get().get();
+
+        if (!querySnapshot.isEmpty()) {
+            var doc = querySnapshot.getDocuments().get(0);
+            String username = doc.getString("usuario");
+            return username;
+        } else {
+            return email;
+        }
     }
 }
