@@ -18,13 +18,13 @@ import javafx.scene.input.MouseEvent;
 
 public class LoginController {
     @FXML
-    private TextField usernameField;
+    private TextField emailField;
     @FXML
     private PasswordField passwordField;
 
     @FXML
     public void handleLogin() {
-        String username = usernameField.getText();
+        String username = emailField.getText();
         String password = passwordField.getText();
         try {
             if (AuthService.autenticate(username, password)) {
