@@ -27,7 +27,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("ufzdev.todo_list")
-    mainClass.set("ufzdev.todo_list.HelloApplication")
+    mainClass.set("ufzdev.todo_list.Main")
 }
 
 javafx {
@@ -36,11 +36,6 @@ javafx {
 }
 
 dependencies {
-    implementation("org.controlsfx:controlsfx:11.2.1")
-    implementation("net.synedra:validatorfx:0.6.1") {
-        exclude(group = "org.openjfx")
-    }
-    implementation("org.kordamp.ikonli:ikonli-javafx:12.3.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
