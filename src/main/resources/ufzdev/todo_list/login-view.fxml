@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Region?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ufzdev.todo_list.controllers.Controller"
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ufzdev.todo_list.controllers.LoginController"
       stylesheets="@css/styles.css" styleClass="root-main">
 
     <VBox styleClass="branding-panel" HBox.hgrow="ALWAYS">
@@ -62,19 +62,19 @@
                 </VBox>
 
                 <VBox spacing="8.0">
-                    <HBox spacing="10.0">
-                        <Label text="Contraseña" styleClass="field-label" HBox.hgrow="ALWAYS"/>
-                        <Label text="¿Olvidaste?" styleClass="forgot-link"/>
-                    </HBox>
+                    <Label text="Contraseña" styleClass="field-label" HBox.hgrow="ALWAYS"/>
                     <PasswordField fx:id="passwordField" promptText="••••••••" styleClass="input-field"/>
                 </VBox>
             </VBox>
 
             <Button text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-primary"/>
+            <Button text="Anonimo" onAction="#handleLoginAnonimus" styleClass="btn-primary"/>
+            <HBox spacing="5.0" alignment="CENTER">
+                <Label text="¿No tienes una cuenta?" styleClass="footer-text"/>
+                <Label fx:id="lblRegister" text="Registrate" styleClass="forgot-link" onMouseClicked="#handleOpenRegister"/>
+            </HBox>
 
-            <Label text="O continúa con" styleClass="divider-text"/>
 
-            <Button text="Google" styleClass="btn-social" HBox.hgrow="ALWAYS"/>
             <Button text="Ver proyecto en GitHub"
                     onAction="#handleOpenGithub"
                     styleClass="btn-social"
