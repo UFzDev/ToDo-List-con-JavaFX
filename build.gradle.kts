@@ -1,7 +1,6 @@
 plugins {
     java
     application
-    id("org.javamodularity.moduleplugin") version "1.8.15"
     id("org.openjfx.javafxplugin") version "0.0.13"
     id("org.beryx.jlink") version "2.25.0"
 }
@@ -19,6 +18,7 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(23)
     }
+    modularity.inferModulePath.set(false)
 }
 
 tasks.withType<JavaCompile> {
@@ -26,8 +26,7 @@ tasks.withType<JavaCompile> {
 }
 
 application {
-    mainModule.set("ufzdev.todo_list")
-    mainClass.set("ufzdev.todo_list.Main")
+    mainClass.set("ufzdev.todo_list.Launcher")
 }
 
 javafx {
@@ -38,6 +37,9 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
+    implementation("com.google.firebase:firebase-admin:9.8.0")
 }
 
 tasks.withType<Test> {
