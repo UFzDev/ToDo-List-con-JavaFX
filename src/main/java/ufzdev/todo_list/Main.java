@@ -23,9 +23,10 @@ public class Main extends Application {
             System.out.println("Error: " + e.getMessage());
         }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
+        stage.setTitle("Login - ToDo List");
+        //stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
     }
