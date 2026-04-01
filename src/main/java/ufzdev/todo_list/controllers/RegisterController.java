@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.services.UserService;
 import ufzdev.todo_list.util.AlertsUtil;
+import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.TaskExecutorUtil;
 
 public class RegisterController {
@@ -62,11 +63,6 @@ public class RegisterController {
 
     @FXML
     public void handleCancel() {
-        closeModal();
-    }
-
-    private void closeModal() {
-        Stage stage = (Stage) rootPane.getScene().getWindow();
-        stage.close();
+        NavigationUtil.closeModal((Stage) rootPane.getScene().getWindow());
     }
 }

@@ -55,7 +55,7 @@
                         <Label styleClass="h1" text="Espacio de Trabajo Diario" />
                         <Label styleClass="subtitle" text="Gestiona tus tareas y pendientes" />
                     </VBox>
-                    <Button fx:id="btnNewTask" mnemonicParsing="false" styleClass="btn-primary-gradient" text="Nueva Tarea" onAction="#handleNewTask">
+                    <Button fx:id="btnNewTask" mnemonicParsing="false" styleClass="btn-primary" text="Nueva Tarea" onAction="#handleNewTask">
                         <graphic>
                             <SVGPath content="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="WHITE" scaleX="0.8" scaleY="0.8" />
                         </graphic>

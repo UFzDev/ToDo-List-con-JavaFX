@@ -68,9 +68,9 @@
             <Region VBox.vgrow="ALWAYS"/>
 
             <HBox spacing="10.0">
-                <Button fx:id="btnRegister" text="Crear cuenta" onAction="#handleRegister" styleClass="btn-register-primary"
+                <Button fx:id="btnRegister" text="Crear cuenta" onAction="#handleRegister" styleClass="btn-primary"
                         prefWidth="0.0" HBox.hgrow="ALWAYS" maxWidth="1000"/>
-                <Button text="Cancelar" onAction="#handleCancel" styleClass="btn-secondary"
+                <Button text="Cancelar" onAction="#handleCancel" styleClass="btn-tertiary"
                         HBox.hgrow="ALWAYS" maxWidth="1000"/>
             </HBox>
         </VBox>

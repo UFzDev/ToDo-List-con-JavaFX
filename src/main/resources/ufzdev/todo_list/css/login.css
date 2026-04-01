@@ -2,6 +2,10 @@
    LAYOUT & PANELS (LOGIN SPECIFIC)
    ============================================ */
 
+.root-main {
+    -fx-background-color: #f8f9fa;
+}
+
 .branding-panel {
     -fx-background-color: #005db5;
     -fx-pref-width: 40%;

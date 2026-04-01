@@ -1,15 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ufzdev.todo_list.controllers.NewTaskController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label text="HOLA" layoutX="14.0" layoutY="14.0" />
+<VBox fx:id="rootVBox" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ufzdev.todo_list.controllers.NewTaskController"
+      prefWidth="620.0" prefHeight="760.0"
+      styleClass="task-modal"
+      stylesheets="@../css/global.css, @../css/new-task.css">
 
-</AnchorPane>
+    <VBox styleClass="task-modal-header" spacing="6.0">
+        <padding>
+            <Insets top="26.0" right="26.0" bottom="22.0" left="26.0"/>
+        </padding>
+
+        <Label text="NUEVA TAREA" styleClass="task-modal-kicker"/>
+        <Label text="Crea un pendiente claro" styleClass="task-modal-title" wrapText="true"/>
+        <Label text="Llena los datos principales de la tarea para dejarla lista dentro de tu flujo de trabajo."
+               styleClass="task-modal-subtitle" wrapText="true"/>
+    </VBox>
+
+    <VBox styleClass="task-modal-body" spacing="16.0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="22.0" right="26.0" bottom="22.0" left="26.0"/>
+        </padding>
+
+        <VBox spacing="6.0" styleClass="task-field-group">
+            <Label text="NOMBRE DE LA TAREA" styleClass="field-label"/>
+            <TextField promptText="Ej. Preparar presentación" styleClass="task-input"/>
+        </VBox>
+
+        <VBox spacing="6.0" styleClass="task-field-group">
+            <Label text="DESCRIPCIÓN" styleClass="field-label"/>
+            <TextArea promptText="Describe brevemente lo que se debe hacer"
+                      styleClass="task-text-area" wrapText="true" prefRowCount="5"/>
+        </VBox>
+
+        <HBox spacing="12.0">
+            <VBox spacing="6.0" styleClass="task-field-group" HBox.hgrow="ALWAYS">
+                <Label text="FECHA LÍMITE" styleClass="field-label"/>
+                <DatePicker promptText="Selecciona una fecha" editable="false"
+                            styleClass="task-control" maxWidth="1000"/>
+            </VBox>
+
+            <VBox spacing="6.0" styleClass="task-field-group" HBox.hgrow="ALWAYS">
+                <Label text="ESTADO" styleClass="field-label"/>
+                <ComboBox promptText="Selecciona un estado" styleClass="task-control" maxWidth="1000"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="6.0" styleClass="task-field-group">
+            <Label text="CATEGORÍAS" styleClass="field-label"/>
+            <Label text="Se cargarán desde la base de datos." styleClass="task-modal-note"/>
+            <HBox spacing="10.0" styleClass="task-category-options"/>
+        </VBox>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <Separator styleClass="task-modal-separator"/>
+
+        <VBox spacing="12.0" styleClass="task-modal-footer">
+            <Button text="Guardar tarea" styleClass="btn-primary, task-primary-button" maxWidth="1000"/>
+            <Button onAction="#handleCancel" text="Cancelar" styleClass="btn-tertiary, task-secondary-button" maxWidth="1000"/>
+        </VBox>
+    </VBox>
+</VBox>

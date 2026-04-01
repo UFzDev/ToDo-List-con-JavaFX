@@ -1,0 +1,177 @@
+/* ============================================
+   NEW TASK MODAL - VERTICAL FORM
+   ============================================ */
+
+.modal-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 18;
+    -fx-border-color: #dbe4e7;
+    -fx-border-width: 1;
+    -fx-border-radius: 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.10), 28, 0.12, 0, 10);
+}
+
+.task-modal {
+    -fx-pref-width: 620;
+    -fx-pref-height: 760;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 18;
+    -fx-border-color: #dbe4e7;
+    -fx-border-width: 1;
+    -fx-border-radius: 18;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.10), 28, 0.12, 0, 10);
+}
+
+.task-modal-header {
+    -fx-background-color: linear-gradient(to right, #f8fafc, #eef2f6);
+    -fx-border-color: transparent transparent #dbe4e7 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.task-modal-kicker {
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1d4ed8;
+    -fx-letter-spacing: 1.4px;
+}
+
+.task-modal-title {
+    -fx-font-family: "Manrope", "Segoe UI", sans-serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #0f172a;
+}
+
+.task-modal-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #5b6475;
+    -fx-line-spacing: 2px;
+}
+
+.task-modal-body {
+    -fx-background-color: #ffffff;
+}
+
+.task-field-group {
+    -fx-spacing: 6;
+}
+
+.task-input,
+.task-text-area,
+.task-control {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 12;
+    -fx-border-color: #d8e0e8;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #0f172a;
+}
+
+.task-input,
+.task-control {
+    -fx-pref-height: 46;
+    -fx-padding: 0 14 0 14;
+}
+
+.task-text-area {
+    -fx-min-height: 120;
+    -fx-pref-height: 130;
+    -fx-padding: 12 14 12 14;
+    -fx-wrap-text: true;
+}
+
+.date-picker {
+    -fx-cursor: hand;
+}
+
+.task-input:focused,
+.task-text-area:focused,
+.task-control:focused,
+.date-picker:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #005db5;
+}
+
+.task-input:hover,
+.task-text-area:hover,
+.task-control:hover,
+.date-picker:hover {
+    -fx-border-color: #b8c6d6;
+}
+
+.date-picker .text-field,
+.date-picker .arrow-button,
+.date-picker .arrow {
+    -fx-background-color: transparent;
+}
+
+.date-picker .text-field {
+    -fx-text-fill: #0f172a;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 12 12 0;
+}
+
+.date-picker .arrow {
+    -fx-background-color: #64748b;
+}
+
+.task-category-options {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 12;
+    -fx-border-color: #d8e0e8;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-padding: 0 12 0 12;
+    -fx-pref-height: 46;
+    -fx-min-height: 46;
+    -fx-alignment: center-left;
+}
+
+.task-category-check {
+    -fx-text-fill: #0f172a;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+}
+
+.task-category-check .box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #c7d2e0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.task-category-check:selected .box {
+    -fx-background-color: #005db5;
+    -fx-border-color: #005db5;
+}
+
+.task-category-check:selected .mark {
+    -fx-background-color: #ffffff;
+}
+
+.task-modal-separator {
+    -fx-opacity: 0.7;
+}
+
+.task-modal-note {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+    -fx-padding: 0 2 4 2;
+}
+
+.task-modal-footer {
+    -fx-padding: 4 0 0 0;
+}
+
+.task-primary-button {
+    -fx-pref-height: 48;
+}
+
+.task-secondary-button {
+    -fx-pref-height: 48;
+}

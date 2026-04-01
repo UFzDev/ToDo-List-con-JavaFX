@@ -53,11 +53,17 @@ public class NavigationUtil {
         }
     }
 
+    public static void closeModal(Stage modalStage) {
+        if (modalStage != null) {
+            modalStage.close();
+        }
+    }
+
     public static void goToRegister() {
         showModal("register.fxml", "Crear Cuenta - ToDo List", 1000, 500);
     }
 
-    public static void goToNewTask() {showModal("new-task.fxml", "Nueva Tarea - ToDo List", 500, 800);}
+    public static void goToNewTask() {showModal("new-task.fxml", "Nueva Tarea - ToDo List", 550, 800);}
 
 
 }

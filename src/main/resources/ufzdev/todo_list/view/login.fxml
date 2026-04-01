@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 
 <HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ufzdev.todo_list.controllers.LoginController"
-      stylesheets="@../css/global.css, @../css/login.css" styleClass="root-main">
+      stylesheets="@../css/global.css, @../css/login.css" styleClass="root">
 
     <VBox styleClass="branding-panel" HBox.hgrow="ALWAYS">
         <VBox spacing="40.0" styleClass="branding-content" VBox.vgrow="ALWAYS">
@@ -67,15 +67,15 @@
                 </VBox>
             </VBox>
 
-            <Button fx:id="btnLogin" text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-login-primary"/>
-            <Button fx:id="btnTest" text="Test" onAction="#handleLoginTest" styleClass="btn-test"/>
+            <Button fx:id="btnLogin" text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-primary" maxWidth="1000"/>
+            <Button fx:id="btnTest" text="Test" onAction="#handleLoginTest" styleClass="btn-secondary" maxWidth="1000"/>
             <HBox spacing="5.0" alignment="CENTER">
                 <Label text="¿No tienes una cuenta?" styleClass="footer-text"/>
                 <Label text="Registrate" styleClass="forgot-link" onMouseClicked="#handleOpenRegister"/>
             </HBox>
 
 
-            <Button fx:id="btnGit" text="Ver proyecto en GitHub" onAction="#handleOpenGithub" styleClass="btn-social" maxWidth="1000"/>
+            <Button fx:id="btnGit" text="Ver proyecto en GitHub" onAction="#handleOpenGithub" styleClass="btn-tertiary" maxWidth="1000"/>
         </VBox>
     </VBox>
 </HBox>
