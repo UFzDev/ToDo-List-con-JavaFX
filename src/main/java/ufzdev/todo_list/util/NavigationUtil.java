@@ -38,9 +38,6 @@ public class NavigationUtil {
         renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1400, 900);
     }
 
-    public static void goToSettings(Stage stage) {
-        renderView(stage, "settings.fxml", "Configuración - ToDo List", 1200, 700);
-    }
 
     private static void showModal(String fxmlFile, String title, int width, int height) {
         try {
@@ -75,5 +72,8 @@ public class NavigationUtil {
         showModal("new-task.fxml", "Nueva Tarea - ToDo List", 550, 800);
     }
 
+    public static void goToSettings() {
+        showModal("settings.fxml", "Configuración - ToDo List", 550, 800);
+    }
 
 }

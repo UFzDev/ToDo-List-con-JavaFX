@@ -99,7 +99,8 @@ public class LoginController {
         }
 
         if (!user.isHasSettings()) {
-            NavigationUtil.goToSettings(stage);
+            NavigationUtil.goToTasks(stage);
+            NavigationUtil.goToSettings();
             return;
         }
 
