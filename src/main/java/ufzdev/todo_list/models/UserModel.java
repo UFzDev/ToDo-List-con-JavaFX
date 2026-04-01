@@ -1,6 +1,6 @@
 package ufzdev.todo_list.models;
 
-public class User {
+public class UserModel {
         private String id;
         private String name;
         private String username;

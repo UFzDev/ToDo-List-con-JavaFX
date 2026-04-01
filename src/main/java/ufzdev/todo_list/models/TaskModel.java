@@ -2,14 +2,14 @@ package ufzdev.todo_list.models;
 
 import java.util.Date;
 
-public class Task {
+public class TaskModel {
     private String id;
     private String name;
     private String description;
     private String status;
     private Date createdAt;
     private Date limitDate;
-    private Category category;
+    private CategoryModel category;
 
     public String getId() {
         return id;
@@ -59,11 +59,11 @@ public class Task {
         this.limitDate = limitDate;
     }
 
-    public Category getCategory() {
+    public CategoryModel getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryModel category) {
         this.category = category;
     }
 }

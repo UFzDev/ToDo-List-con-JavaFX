@@ -7,14 +7,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class NavigationUtils {
+public class NavigationUtil {
 
     // Ruta base
     private static final String BASE_PATH = "/ufzdev/todo_list/view/";
 
     private static void renderView(Stage stage, String fxmlFile, String title, int width, int height) {
         try {
-            FXMLLoader loader = new FXMLLoader(NavigationUtils.class.getResource(BASE_PATH + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(BASE_PATH + fxmlFile));
             Parent root = loader.load();
 
             Scene scene = new Scene(root, width, height);
@@ -25,12 +25,12 @@ public class NavigationUtils {
 
         } catch (IOException e) {
             System.err.println("Error al cargar la vista " + fxmlFile + ": " + e.getMessage());
-            AlertUtils.showError("Error de Sistema", "No se pudo abrir la ventana solicitada.");
+            AlertsUtil.showError("Error de Sistema", "No se pudo abrir la ventana solicitada.");
         }
     }
 
     public static void goToLogin(Stage stage) {
-        renderView(stage, "login.fxml", "Login - ToDo List", 1200, 700);
+        renderView(stage, "login.fxml", "LoginController - ToDo List", 1200, 700);
     }
 
 
@@ -40,7 +40,7 @@ public class NavigationUtils {
 
     private static void showModal(String fxmlFile, String title) {
         try {
-            FXMLLoader loader = new FXMLLoader(NavigationUtils.class.getResource(BASE_PATH + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(BASE_PATH + fxmlFile));
             Parent root = loader.load();
 
             Stage modalStage = new Stage();
@@ -51,7 +51,7 @@ public class NavigationUtils {
             modalStage.show();
 
         } catch (IOException e) {
-            AlertUtils.showError("Error de Sistema", "No se pudo abrir el formulario: " + fxmlFile);
+            AlertsUtil.showError("Error de Sistema", "No se pudo abrir el formulario: " + fxmlFile);
             System.out.println("Error en showModal: " + e.getMessage());
         }
     }

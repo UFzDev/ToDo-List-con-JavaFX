@@ -1,14 +1,12 @@
 package ufzdev.todo_list;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.google.cloud.firestore.Firestore;
-import ufzdev.todo_list.util.AlertUtils;
-import ufzdev.todo_list.util.FirebaseConfig;
-import ufzdev.todo_list.util.NavigationUtils;
+import ufzdev.todo_list.util.AlertsUtil;
+import ufzdev.todo_list.config.FirebaseConfig;
+import ufzdev.todo_list.util.NavigationUtil;
 
 import java.io.IOException;
 
@@ -20,11 +18,11 @@ public class Main extends Application {
         try {
             firestore = FirebaseConfig.initialize();
         } catch (Exception e) {
-            AlertUtils.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
+            AlertsUtil.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
             System.out.println("Error: " + e.getMessage());
         }
 
-        NavigationUtils.goToLogin(stage);
+        NavigationUtil.goToLogin(stage);
     }
 
     @Override
@@ -32,10 +30,10 @@ public class Main extends Application {
         if (firestore != null) {
             try {
                 firestore.close();
-                AlertUtils.showError("Cierre de Firestore", "Firestore cerrado correctamente.");
+                AlertsUtil.showError("Cierre de Firestore", "Firestore cerrado correctamente.");
                 System.out.println("Firestore cerrado correctamente.");
             } catch (Exception e) {
-                AlertUtils.showError("Error al cerrar Firestore", "No se pudo cerrar Firestore. Verifique la configuración.");
+                AlertsUtil.showError("Error al cerrar Firestore", "No se pudo cerrar Firestore. Verifique la configuración.");
                 System.out.println("No se pudo cerrar Firestore: " + e.getMessage());
             }
         }

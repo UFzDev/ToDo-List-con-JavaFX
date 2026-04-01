@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-public class TaskExecutor {
+public class TaskExecutorUtil {
     // Creamos 4 hilos para tareas en segundo plano
     private static final ExecutorService executor = Executors.newFixedThreadPool(4, runnable -> {
         Thread t = new Thread(runnable);

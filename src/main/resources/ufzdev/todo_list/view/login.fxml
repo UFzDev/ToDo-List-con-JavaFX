@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Region?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ufzdev.todo_list.controllers.Login"
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="ufzdev.todo_list.controllers.LoginController"
       stylesheets="@../css/global.css, @../css/login.css" styleClass="root-main">
 
     <VBox styleClass="branding-panel" HBox.hgrow="ALWAYS">

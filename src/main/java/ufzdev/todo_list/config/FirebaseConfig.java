@@ -1,11 +1,11 @@
-package ufzdev.todo_list.util;
+package ufzdev.todo_list.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.DocumentReference;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
+import ufzdev.todo_list.util.AlertsUtil;
 
 import java.io.InputStream;
 
@@ -27,7 +27,7 @@ public class FirebaseConfig {
 
                 FirebaseApp.initializeApp(options);
             }catch (Exception e) {
-                AlertUtils.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
+                AlertsUtil.showError("Error de configuración", "No se pudo inicializar Firebase. Verifique la configuración.");
                 System.out.println("Error al inicializar Firebase: " + e.getMessage());
             }
         }

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <HBox fx:id="rootPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="ufzdev.todo_list.controllers.Register" stylesheets="@../css/global.css, @../css/register.css"
+      fx:controller="ufzdev.todo_list.controllers.RegisterController" stylesheets="@../css/global.css, @../css/register.css"
       styleClass="modal-card" prefWidth="980.0" prefHeight="620.0">
 
     <VBox styleClass="register-side" prefWidth="320.0" spacing="18.0">

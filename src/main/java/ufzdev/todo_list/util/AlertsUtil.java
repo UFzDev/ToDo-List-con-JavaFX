@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
-public class AlertUtils {
+public class AlertsUtil {
 
     public static void showSuccess(String title, String message) {
         Platform.runLater(() -> {

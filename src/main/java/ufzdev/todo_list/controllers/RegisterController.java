@@ -6,12 +6,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import ufzdev.todo_list.models.User;
+import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.services.UserService;
-import ufzdev.todo_list.util.AlertUtils;
-import ufzdev.todo_list.util.TaskExecutor;
+import ufzdev.todo_list.util.AlertsUtil;
+import ufzdev.todo_list.util.TaskExecutorUtil;
 
-public class Register {
+public class RegisterController {
 
     @FXML
     private HBox rootPane;
@@ -36,24 +36,24 @@ public class Register {
         // Bloqueamos el botón o lanzamos un indicador de carga si lo tienes
         btnRegister.setDisable(true);
 
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setUsername(user);
-        newUser.setEmail(email);
-        newUser.setPassword(password);
+        UserModel newUserModel = new UserModel();
+        newUserModel.setName(name);
+        newUserModel.setUsername(user);
+        newUserModel.setEmail(email);
+        newUserModel.setPassword(password);
 
-        TaskExecutor.execute(
+        TaskExecutorUtil.execute(
                 () -> {
-                    UserService.registerUser(newUser);
-                    return newUser;
+                    UserService.registerUser(newUserModel);
+                    return newUserModel;
                 },
-                resultUser -> {
-                    AlertUtils.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + newUser.getName() + "!");
-                    System.out.println("Registro exitoso en Firebase para: " + newUser.getName());
+                resultUserModel -> {
+                    AlertsUtil.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + newUserModel.getName() + "!");
+                    System.out.println("Registro exitoso en Firebase para: " + newUserModel.getName());
                     btnRegister.setDisable(false);
                 },
                 error -> {
-                    AlertUtils.showError("Error durante el registro", "Error: " + error.getMessage());
+                    AlertsUtil.showError("Error durante el registro", "Error: " + error.getMessage());
                     System.out.println("Error durante el registro: " + error.getMessage());
                     btnRegister.setDisable(false);
                 }

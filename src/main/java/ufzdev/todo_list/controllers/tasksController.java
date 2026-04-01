@@ -1,4 +1,4 @@
 package ufzdev.todo_list.controllers;
 
-public class tasks {
+public class tasksController {
 }
