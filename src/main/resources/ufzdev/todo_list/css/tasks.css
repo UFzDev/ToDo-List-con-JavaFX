@@ -1,0 +1,195 @@
+/* ============================================
+   ARCHITECT TODO - DESIGN SYSTEM
+   ============================================ */
+
+.main-container {
+    -fx-background-color: #f8f9fa; /* Background Surface */
+}
+
+/* SIDEBAR - SLATE STYLE */
+.sidebar {
+    -fx-background-color: #f1f5f9; /* bg-slate-100 */
+    -fx-pref-width: 256;
+    -fx-padding: 40 0 40 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 20, 0, 5, 0);
+}
+
+.sidebar-logo-container {
+    -fx-padding: 0 32 40 32;
+}
+
+.sidebar-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1d4ed8; /* blue-800 */
+    -fx-font-family: "Manrope", "Segoe UI", sans-serif;
+}
+
+.nav-menu {
+    -fx-spacing: 8;
+    -fx-padding: 0 20 0 20;
+}
+
+.nav-button {
+    -fx-alignment: center-left;
+    -fx-background-color: transparent;
+    -fx-text-fill: #475569; /* slate-500 */
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 12 16 12 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-spacing: 12;
+}
+
+.nav-button:hover {
+    -fx-background-color: #e2e8f0; /* bg-slate-200 */
+}
+
+.nav-button-active {
+    -fx-text-fill: #1d4ed8;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent #2563eb transparent transparent;
+    -fx-border-width: 0 4 0 0;
+}
+
+.sidebar-footer {
+    -fx-padding: 24 20 0 20;
+}
+
+.profile-name {
+    -fx-font-size: 13px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+    -fx-padding: 0 0 5 0;
+}
+
+.btn-logout {
+    -fx-background-color: #fee2e2; /* light red */
+    -fx-text-fill: #991b1b; /* red-800 */
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-padding: 6 12 6 12;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-logout:hover {
+    -fx-background-color: #fecaca;
+    -fx-text-fill: #7f1d1d;
+}
+
+/* ============================================
+   WORKSPACE & BENTO FILTERS
+   ============================================ */
+
+.workspace {
+    -fx-padding: 40 48 40 48;
+}
+
+.h1 {
+    -fx-font-size: 34px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #111827;
+    -fx-letter-spacing: -1px;
+}
+
+.subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #586064;
+    -fx-padding: 4 0 32 0;
+}
+
+.btn-primary-gradient {
+    -fx-background-color: linear-gradient(to bottom right, #005db5, #004d96);
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-background-radius: 12;
+    -fx-padding: 12 24 12 24;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 93, 181, 0.2), 15, 0, 0, 6);
+    -fx-cursor: hand;
+}
+
+.bento-filter-section {
+    -fx-spacing: 16;
+    -fx-padding: 0 0 32 0;
+}
+
+.bento-card {
+    -fx-background-color: #f1f4f6; /* surface-container-low */
+    -fx-background-radius: 12;
+    -fx-padding: 12 16 12 16;
+    -fx-alignment: center-left;
+    -fx-spacing: 12;
+}
+
+.bento-input {
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: #abb3b7;
+    -fx-text-fill: #2b3437;
+    -fx-font-size: 13px;
+    -fx-border-width: 0;
+}
+
+/* ============================================
+   TABLE VIEW - TONAL LAYERING
+   ============================================ */
+
+.tonal-table {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.02), 10, 0, 0, 2);
+}
+
+.tonal-table .column-header-background {
+    -fx-background-color: #f1f4f6;
+    -fx-background-radius: 20 20 0 0;
+}
+
+.tonal-table .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 16 20 16 20;
+}
+
+.tonal-table .column-header .label {
+    -fx-text-fill: #586064;
+    -fx-font-weight: 800;
+    -fx-font-size: 11px;
+    -fx-letter-spacing: 1px;
+}
+
+.tonal-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #f1f4f6 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12 0 12 0;
+}
+
+.tonal-table .table-row-cell:hover {
+    -fx-background-color: #f8f9fa;
+}
+
+.tonal-table .table-cell {
+    -fx-padding: 0 20 0 20;
+    -fx-alignment: center-left;
+    -fx-text-fill: #2b3437;
+    -fx-font-weight: 500;
+}
+
+/* Pills & Chips */
+.pill-tonal {
+    -fx-background-radius: 20;
+    -fx-padding: 4 12 4 12;
+    -fx-font-size: 10px;
+    -fx-font-weight: 800;
+    -fx-alignment: center;
+}
+
+.pill-tertiary { -fx-background-color: #d9d7f8; -fx-text-fill: #4a4a65; }
+.pill-surface { -fx-background-color: #dbe4e7; -fx-text-fill: #586064; }
+.pill-primary { -fx-background-color: #d6e3ff; -fx-text-fill: #00519e; }
+
+.text-error { -fx-text-fill: #9f403d; -fx-font-weight: 700; }
+

@@ -10,7 +10,7 @@ import ufzdev.todo_list.services.UserService;
 import ufzdev.todo_list.util.AlertUtils;
 import ufzdev.todo_list.util.TaskExecutor;
 
-public class RegisterController {
+public class Register {
 
     @FXML
     private HBox rootPane;

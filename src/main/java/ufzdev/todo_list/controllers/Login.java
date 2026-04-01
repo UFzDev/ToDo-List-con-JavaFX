@@ -19,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 import ufzdev.todo_list.util.AlertUtils;
 import ufzdev.todo_list.util.TaskExecutor;
 
-public class LoginController {
+public class Login {
     @FXML
     private TextField emailField;
     @FXML
@@ -50,7 +50,20 @@ public class LoginController {
                         AlertUtils.showSuccess("Login Exitoso", "Bienvenido, " + username + "!");
                         System.out.println("Login exitoso para el usuario: " + username);
                         btnLogin.setDisable(false);
-                        // Futura vista principal de la aplicación
+
+                        // Cambio a la vista principal
+                        try {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/tasks.fxml"));
+                            Parent root = loader.load();
+                            Stage stage = (Stage) btnLogin.getScene().getWindow();
+                            stage.setTitle("Gestión de Tareas - ToDo List");
+                            stage.setScene(new Scene(root));
+                            stage.centerOnScreen();
+                            stage.show();
+                        } catch (IOException e) {
+                            AlertUtils.showError("Error de Navegación", "No se pudo cargar la vista principal.");
+                            System.out.println("Error al cargar tasks.fxml: " + e.getMessage());
+                        }
                     } else {
                         AlertUtils.showError("Login Fallido", "Credenciales inválidas. Por favor, inténtalo de nuevo.");
                         System.out.println("Credenciales inválidas para el usuario");
@@ -74,7 +87,20 @@ public class LoginController {
                     AlertUtils.showSuccess("Inicio de sesión de prueba exitoso",
                             "Se ha autenticado correctamente con el usuario de prueba.");
                     System.out.println("Login exitoso con el usuario de prueba.");
-                    btnTest.setDisable(false);
+                    
+                    // Navegar a la vista principal
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/tasks.fxml"));
+                        Parent root = loader.load();
+                        Stage stage = (Stage) btnTest.getScene().getWindow();
+                        stage.setTitle("Gestión de Tareas - ToDo List");
+                        stage.setScene(new Scene(root));
+                        stage.centerOnScreen();
+                        stage.show();
+                    } catch (IOException e) {
+                        AlertUtils.showError("Error de Navegación", "No se pudo cargar la vista principal.");
+                        System.out.println("Error al cargar tasks.fxml (Prueba): " + e.getMessage());
+                    }
                 },
                 error -> {
                     AlertUtils.showError("Error en el inicio de sesión de prueba",
