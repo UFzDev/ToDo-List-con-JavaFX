@@ -23,11 +23,11 @@ public class Main extends Application {
             System.out.println("Error: " + e.getMessage());
         }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ufzdev/todo_list/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
         stage.setTitle("Login - ToDo List");
         //stage.setMaximized(true);
-        scene.getStylesheets().add(getClass().getResource("css/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }

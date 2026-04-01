@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 
-import io.grpc.netty.shaded.io.netty.util.Timeout;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -89,7 +88,7 @@ public class LoginController {
     @FXML
     private void handleOpenRegister(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/register-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/register.fxml"));
             Parent root = loader.load();
 
             // Configuración del modal para el registro
