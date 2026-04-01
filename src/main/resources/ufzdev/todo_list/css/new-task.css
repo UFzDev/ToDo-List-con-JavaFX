@@ -2,15 +2,6 @@
    NEW TASK MODAL - VERTICAL FORM
    ============================================ */
 
-.modal-card {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 18;
-    -fx-border-color: #dbe4e7;
-    -fx-border-width: 1;
-    -fx-border-radius: 18;
-    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.10), 28, 0.12, 0, 10);
-}
-
 .task-modal {
     -fx-pref-width: 620;
     -fx-pref-height: 760;
@@ -125,43 +116,18 @@
     -fx-border-color: #d8e0e8;
     -fx-border-width: 1;
     -fx-border-radius: 12;
-    -fx-padding: 0 12 0 12;
-    -fx-pref-height: 46;
-    -fx-min-height: 46;
+    -fx-padding: 12 14 12 14;
     -fx-alignment: center-left;
-}
-
-.task-category-check {
-    -fx-text-fill: #0f172a;
-    -fx-font-size: 14px;
-    -fx-font-weight: 600;
-    -fx-cursor: hand;
-}
-
-.task-category-check .box {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #c7d2e0;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-}
-
-.task-category-check:selected .box {
-    -fx-background-color: #005db5;
-    -fx-border-color: #005db5;
-}
-
-.task-category-check:selected .mark {
-    -fx-background-color: #ffffff;
-}
-
-.task-modal-separator {
-    -fx-opacity: 0.7;
 }
 
 .task-modal-note {
     -fx-font-size: 12px;
     -fx-text-fill: #64748b;
     -fx-padding: 0 2 4 2;
+}
+
+.task-modal-separator {
+    -fx-opacity: 0.7;
 }
 
 .task-modal-footer {
