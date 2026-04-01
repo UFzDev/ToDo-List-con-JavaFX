@@ -6,6 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import ufzdev.todo_list.models.User;
 import ufzdev.todo_list.services.UserService;
 import ufzdev.todo_list.util.AlertUtils;
 import ufzdev.todo_list.util.TaskExecutor;
@@ -30,19 +31,25 @@ public class Register {
         String name = nameField.getText();
         String user = usernameField.getText();
         String email = emailField.getText();
-        String pasword = passwordField.getText();
+        String password = passwordField.getText();
 
         // Bloqueamos el botón o lanzamos un indicador de carga si lo tienes
         btnRegister.setDisable(true);
 
+        User newUser = new User();
+        newUser.setName(name);
+        newUser.setUsername(user);
+        newUser.setEmail(email);
+        newUser.setPassword(password);
+
         TaskExecutor.execute(
                 () -> {
-                    UserService.registerUser(name, user, email, pasword);
-                    return user;
+                    UserService.registerUser(newUser);
+                    return newUser;
                 },
                 resultUser -> {
-                    AlertUtils.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + resultUser + "!");
-                    System.out.println("Registro exitoso en Firebase para: " + resultUser);
+                    AlertUtils.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + newUser.getName() + "!");
+                    System.out.println("Registro exitoso en Firebase para: " + newUser.getName());
                     btnRegister.setDisable(false);
                 },
                 error -> {

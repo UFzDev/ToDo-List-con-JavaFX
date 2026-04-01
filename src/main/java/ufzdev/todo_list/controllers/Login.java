@@ -13,11 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ufzdev.todo_list.models.User;
 import ufzdev.todo_list.services.UserService;
 
 import javafx.scene.input.MouseEvent;
 import ufzdev.todo_list.util.AlertUtils;
+import ufzdev.todo_list.util.NavigationUtils;
 import ufzdev.todo_list.util.TaskExecutor;
+import ufzdev.todo_list.util.UserSession;
 
 public class Login {
     @FXML
@@ -33,42 +36,22 @@ public class Login {
 
     @FXML
     public void handleLogin() {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        User user = new User();
+        user.setEmail(emailField.getText());
+        user.setPassword(passwordField.getText());
         btnLogin.setDisable(true);
         TaskExecutor.execute(
-                () -> UserService.autenticate(email, password),
-                isAuthenticated -> {
-                    if (isAuthenticated) {
-                        String username = "";
-                        try {
-                            username = UserService.username(email);
-                        } catch (Exception e) {
-                            AlertUtils.showError("Error al obtener el nombre de usuario", "No se pudo obtener el nombre de usuario. Inténtalo de nuevo.");
-                            System.out.println("Error al obtener el nombre de usuario: " + e.getMessage());
-                        }
-                        AlertUtils.showSuccess("Login Exitoso", "Bienvenido, " + username + "!");
-                        System.out.println("Login exitoso para el usuario: " + username);
-                        btnLogin.setDisable(false);
+                () -> UserService.autenticate(user),
+                userAuthenticated -> {
+                    AlertUtils.showSuccess("Login Exitoso", "Bienvenido, " + userAuthenticated.getUsername() + "!");
+                    System.out.println("Login exitoso para el usuario: " + userAuthenticated.getUsername());
+                    btnLogin.setDisable(false);
 
-                        // Cambio a la vista principal
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/tasks.fxml"));
-                            Parent root = loader.load();
-                            Stage stage = (Stage) btnLogin.getScene().getWindow();
-                            stage.setTitle("Gestión de Tareas - ToDo List");
-                            stage.setScene(new Scene(root));
-                            stage.centerOnScreen();
-                            stage.show();
-                        } catch (IOException e) {
-                            AlertUtils.showError("Error de Navegación", "No se pudo cargar la vista principal.");
-                            System.out.println("Error al cargar tasks.fxml: " + e.getMessage());
-                        }
-                    } else {
-                        AlertUtils.showError("Login Fallido", "Credenciales inválidas. Por favor, inténtalo de nuevo.");
-                        System.out.println("Credenciales inválidas para el usuario");
-                        btnLogin.setDisable(false);
-                    }
+                    UserSession.getInstance().setUser(userAuthenticated);
+
+                    // Navegar a la vista principal
+                    Stage stage = (Stage) btnLogin.getScene().getWindow();
+                    NavigationUtils.goToTasks(stage);
                 },
                 error -> {
                     AlertUtils.showError("Error durante la autenticación", "Error: " + error.getMessage());
@@ -89,18 +72,8 @@ public class Login {
                     System.out.println("Login exitoso con el usuario de prueba.");
                     
                     // Navegar a la vista principal
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/tasks.fxml"));
-                        Parent root = loader.load();
-                        Stage stage = (Stage) btnTest.getScene().getWindow();
-                        stage.setTitle("Gestión de Tareas - ToDo List");
-                        stage.setScene(new Scene(root));
-                        stage.centerOnScreen();
-                        stage.show();
-                    } catch (IOException e) {
-                        AlertUtils.showError("Error de Navegación", "No se pudo cargar la vista principal.");
-                        System.out.println("Error al cargar tasks.fxml (Prueba): " + e.getMessage());
-                    }
+                    Stage stage = (Stage) btnTest.getScene().getWindow();
+                    NavigationUtils.goToTasks(stage);
                 },
                 error -> {
                     AlertUtils.showError("Error en el inicio de sesión de prueba",
@@ -113,22 +86,7 @@ public class Login {
 
     @FXML
     private void handleOpenRegister(MouseEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ufzdev/todo_list/view/register.fxml"));
-            Parent root = loader.load();
-
-            // Configuración del modal para el registro
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL); // Bloquea el Login mientras esta esté abierta
-            stage.setTitle("Crear Cuenta - ToDo List");
-            stage.setScene(new Scene(root));
-
-            stage.show();
-
-        } catch (IOException e) {
-            AlertUtils.showError("Error al abrir el registro", "No se pudo abrir la ventana de registro. Inténtalo de nuevo.");
-            System.out.println("Error al abrir la ventana de registro: " + e.getMessage());
-        }
+        NavigationUtils.goToRegister();
     }
 
 

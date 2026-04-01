@@ -68,7 +68,7 @@
                 <HBox styleClass="bento-filter-section">
                     <HBox styleClass="bento-card" HBox.hgrow="ALWAYS">
                         <SVGPath content="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#737c7f" scaleX="0.8" scaleY="0.8" />
-                        <TextField promptText="Buscar hitos..." styleClass="bento-input" HBox.hgrow="ALWAYS" />
+                        <TextField promptText="Buscar..." styleClass="bento-input" HBox.hgrow="ALWAYS" />
                     </HBox>
                     <HBox maxWidth="220.0" prefWidth="220.0" styleClass="bento-card">
                         <SVGPath content="M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z" fill="#737c7f" scaleX="0.75" scaleY="0.75" />

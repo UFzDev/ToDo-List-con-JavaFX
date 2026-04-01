@@ -1,6 +1,7 @@
 package ufzdev.todo_list.util;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.cloud.firestore.Firestore;
@@ -9,6 +10,9 @@ import com.google.firebase.cloud.FirestoreClient;
 import java.io.InputStream;
 
 public class FirebaseConfig {
+    private static FirebaseConfig instance;
+    private final Firestore db;
+
     public static Firestore initialize() {
         if (FirebaseApp.getApps().isEmpty()) {
             try (InputStream serviceAccount = FirebaseConfig.class.getClassLoader()
@@ -29,5 +33,20 @@ public class FirebaseConfig {
         }
 
         return FirestoreClient.getFirestore();
+    }
+
+    private FirebaseConfig() {
+        this.db = initialize();
+    }
+
+    public static synchronized FirebaseConfig getInstance() {
+        if (instance == null) {
+            instance = new FirebaseConfig();
+        }
+        return instance;
+    }
+
+    public Firestore getFirestore() {
+        return db;
     }
 }

@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import com.google.cloud.firestore.Firestore;
 import ufzdev.todo_list.util.AlertUtils;
 import ufzdev.todo_list.util.FirebaseConfig;
+import ufzdev.todo_list.util.NavigationUtils;
 
 import java.io.IOException;
 
@@ -23,13 +24,7 @@ public class Main extends Application {
             System.out.println("Error: " + e.getMessage());
         }
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ufzdev/todo_list/view/login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
-        stage.setTitle("Login - ToDo List");
-        //stage.setMaximized(true);
-        scene.getStylesheets().add(getClass().getResource("css/global.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        NavigationUtils.goToLogin(stage);
     }
 
     @Override

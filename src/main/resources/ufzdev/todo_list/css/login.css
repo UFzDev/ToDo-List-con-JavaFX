@@ -124,12 +124,12 @@
 
 .forgot-link {
     -fx-font-size: 12px;
-    -fx-text-fill: #005db5; /* El azul KAIX */
+    -fx-text-fill: #005db5;
     -fx-font-weight: 700;
-    -fx-cursor: hand; /* Cambia el puntero a la mano */
+    -fx-cursor: hand;
 }
 
 .forgot-link:hover {
-    -fx-text-fill: #0052a0; /* Azul un poco más oscuro al pasar el mouse */
-    -fx-underline: true;     /* Opcional: subraya al pasar el mouse para más claridad */
+    -fx-text-fill: #0052a0;
+    -fx-underline: true;
 }
