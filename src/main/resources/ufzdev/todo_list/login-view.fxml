@@ -68,7 +68,7 @@
             </VBox>
 
             <Button fx:id="btnLogin" text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-primary"/>
-            <Button text="Anonimo" onAction="#handleLoginAnonimus" styleClass="btn-primary"/>
+            <Button fx:id="btnTest" text="Test" onAction="#handleLoginTest" styleClass="btn-anonymous"/>
             <HBox spacing="5.0" alignment="CENTER">
                 <Label text="¿No tienes una cuenta?" styleClass="footer-text"/>
                 <Label text="Registrate" styleClass="forgot-link" onMouseClicked="#handleOpenRegister"/>

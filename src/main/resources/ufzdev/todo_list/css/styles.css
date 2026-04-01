@@ -133,6 +133,21 @@
     -fx-cursor: hand;
 }
 
+.btn-anonymous {
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+    -fx-padding: 12px 22px;
+    -fx-pref-height: 48;
+    -fx-pref-width: 400;
+    -fx-background-color: linear-gradient(to bottom, rgba(119, 119, 119, 0.47), #6e6e6e);
+    -fx-text-fill: #000000;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-cursor: hand;
+}
+
+
+
 .btn-primary:hover {
     -fx-background-color: linear-gradient(to bottom, #0066cc, #005db5);
 }

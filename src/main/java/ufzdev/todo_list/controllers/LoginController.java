@@ -29,6 +29,8 @@ public class LoginController {
     private Button btnLogin;
     @FXML
     private Button btnGit;
+    @FXML
+    private Button btnTest;
 
     @FXML
     public void handleLogin() {
@@ -59,12 +61,26 @@ public class LoginController {
                 error -> {
                     AlertUtils.showError("Error durante la autenticación", "Error: " + error.getMessage());
                     System.out.println("Error durante la autenticación: " + error.getMessage());
+                    btnLogin.setDisable(false);
                 }
         );
     }
     @FXML
-    public void handleLoginAnonimus() {
-
+    public void handleLoginTest() {
+        btnTest.setDisable(true);
+        TaskExecutor.execute(
+                () -> UserService.loginTest(),
+                isAuthenticated -> {
+                    AlertUtils.showSuccess("Inicio de sesión de prueba exitoso", "Se ha autenticado correctamente con el usuario de prueba.");
+                    System.out.println("Login exitoso con el usuario de prueba.");
+                    btnTest.setDisable(false);
+                },
+                error -> {
+                    AlertUtils.showError("Error en el inicio de sesión de prueba", "No se pudo autenticar con el usuario de prueba. Error: " + error.getMessage());
+                    System.out.println("Error durante el inicio de sesión de prueba: " + error.getMessage());
+                    btnTest.setDisable(false);
+                }
+        );
     }
 
     @FXML

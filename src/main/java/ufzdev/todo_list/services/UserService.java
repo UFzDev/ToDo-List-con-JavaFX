@@ -28,6 +28,12 @@ public class UserService {
         }
     }
 
+    public static boolean loginTest() throws Exception {
+        String testEmail = "test@test.com";
+        String testPassword = "123456";
+        return autenticate(testEmail, testPassword);
+    }
+
     public static void registerUser(String name, String username, String email, String password) throws Exception {
         // Crear el usuario en Firebase Authentication
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
