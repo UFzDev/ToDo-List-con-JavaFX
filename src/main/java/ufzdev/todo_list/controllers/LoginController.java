@@ -65,18 +65,21 @@ public class LoginController {
                 }
         );
     }
+
     @FXML
     public void handleLoginTest() {
         btnTest.setDisable(true);
         TaskExecutor.execute(
                 () -> UserService.loginTest(),
                 isAuthenticated -> {
-                    AlertUtils.showSuccess("Inicio de sesión de prueba exitoso", "Se ha autenticado correctamente con el usuario de prueba.");
+                    AlertUtils.showSuccess("Inicio de sesión de prueba exitoso",
+                            "Se ha autenticado correctamente con el usuario de prueba.");
                     System.out.println("Login exitoso con el usuario de prueba.");
                     btnTest.setDisable(false);
                 },
                 error -> {
-                    AlertUtils.showError("Error en el inicio de sesión de prueba", "No se pudo autenticar con el usuario de prueba. Error: " + error.getMessage());
+                    AlertUtils.showError("Error en el inicio de sesión de prueba",
+                            "No se pudo autenticar con el usuario de prueba. Error: " + error.getMessage());
                     System.out.println("Error durante el inicio de sesión de prueba: " + error.getMessage());
                     btnTest.setDisable(false);
                 }
