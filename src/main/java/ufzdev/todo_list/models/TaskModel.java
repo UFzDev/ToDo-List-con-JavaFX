@@ -1,19 +1,23 @@
 package ufzdev.todo_list.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class TaskModel {
+    private String userId;
     private String id;
     private String name;
     private String description;
     private String status;
     private Date createdAt;
     private Date limitDate;
-    private CategoryModel category;
+    private List<CategoryModel> category;
 
-    public String getId() {
-        return id;
-    }
+    public String getUserId() {return userId;}
+
+    public void setUserId(String userId) {this.userId = userId;}
+
+    public String getId() {return id;}
 
     public void setId(String id) {
         this.id = id;
@@ -59,11 +63,11 @@ public class TaskModel {
         this.limitDate = limitDate;
     }
 
-    public CategoryModel getCategory() {
+    public List<CategoryModel> getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryModel category) {
+    public void setCategory(List<CategoryModel> category) {
         this.category = category;
     }
 }

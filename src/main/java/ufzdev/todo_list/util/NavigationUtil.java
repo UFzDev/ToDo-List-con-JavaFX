@@ -29,16 +29,12 @@ public class NavigationUtil {
         }
     }
 
-    public static void goToLogin(Stage stage) {
-        renderView(stage, "login.fxml", "LoginController - ToDo List", 1200, 700);
-    }
+    public static void goToLogin(Stage stage) {renderView(stage, "login.fxml", "LoginController - ToDo List", 1200, 700);}
 
 
-    public static void goToTasks(Stage stage) {
-        renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1200, 700);
-    }
+    public static void goToTasks(Stage stage) {renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1400, 900);}
 
-    private static void showModal(String fxmlFile, String title) {
+    private static void showModal(String fxmlFile, String title, int width, int height) {
         try {
             FXMLLoader loader = new FXMLLoader(NavigationUtil.class.getResource(BASE_PATH + fxmlFile));
             Parent root = loader.load();
@@ -46,7 +42,8 @@ public class NavigationUtil {
             Stage modalStage = new Stage();
             modalStage.initModality(Modality.APPLICATION_MODAL); // Bloquea la ventana de atrás
             modalStage.setTitle(title);
-            modalStage.setScene(new Scene(root));
+            modalStage.setScene(new Scene(root, width, height));
+            modalStage.centerOnScreen();
 
             modalStage.show();
 
@@ -57,8 +54,10 @@ public class NavigationUtil {
     }
 
     public static void goToRegister() {
-        showModal("register.fxml", "Crear Cuenta - ToDo List");
+        showModal("register.fxml", "Crear Cuenta - ToDo List", 1000, 500);
     }
+
+    public static void goToNewTask() {showModal("new-task.fxml", "Nueva Tarea - ToDo List", 500, 800);}
 
 
 }

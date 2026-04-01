@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -10,7 +9,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
             prefHeight="900.0" prefWidth="1440.0" styleClass="main-container" 
             stylesheets="@../css/global.css,@../css/tasks.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ufzdev.todo_list.controllers.TasksController">
 
     <left>
         <VBox styleClass="sidebar" BorderPane.alignment="CENTER">
@@ -54,9 +53,9 @@
                 <HBox alignment="BOTTOM_LEFT" spacing="20.0">
                     <VBox HBox.hgrow="ALWAYS">
                         <Label styleClass="h1" text="Espacio de Trabajo Diario" />
-                        <Label styleClass="subtitle" text="Gestiona tus hitos arquitectónicos y los requerimientos del proyecto." />
+                        <Label styleClass="subtitle" text="Gestiona tus tareas y pendientes" />
                     </VBox>
-                    <Button mnemonicParsing="false" styleClass="btn-primary-gradient" text="Nueva Tarea">
+                    <Button fx:id="btnNewTask" mnemonicParsing="false" styleClass="btn-primary-gradient" text="Nueva Tarea" onAction="#handleNewTask">
                         <graphic>
                             <SVGPath content="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="WHITE" scaleX="0.8" scaleY="0.8" />
                         </graphic>
