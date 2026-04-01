@@ -29,10 +29,18 @@ public class NavigationUtil {
         }
     }
 
-    public static void goToLogin(Stage stage) {renderView(stage, "login.fxml", "LoginController - ToDo List", 1200, 700);}
+    public static void goToLogin(Stage stage) {
+        renderView(stage, "login.fxml", "LoginController - ToDo List", 1200, 700);
+    }
 
 
-    public static void goToTasks(Stage stage) {renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1400, 900);}
+    public static void goToTasks(Stage stage) {
+        renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1400, 900);
+    }
+
+    public static void goToSettings(Stage stage) {
+        renderView(stage, "settings.fxml", "Configuración - ToDo List", 1200, 700);
+    }
 
     private static void showModal(String fxmlFile, String title, int width, int height) {
         try {
@@ -63,7 +71,9 @@ public class NavigationUtil {
         showModal("register.fxml", "Crear Cuenta - ToDo List", 1000, 500);
     }
 
-    public static void goToNewTask() {showModal("new-task.fxml", "Nueva Tarea - ToDo List", 550, 800);}
+    public static void goToNewTask() {
+        showModal("new-task.fxml", "Nueva Tarea - ToDo List", 550, 800);
+    }
 
 
 }

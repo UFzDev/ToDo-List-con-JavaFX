@@ -6,6 +6,15 @@ public class UserModel {
         private String username;
         private String email;
         private String password;
+        private boolean hasSettings;
+
+        public boolean isHasSettings() {
+                return hasSettings;
+        }
+
+        public void setHasSettings(boolean hasSettings) {
+                this.hasSettings = hasSettings;
+        }
 
         public String getId() {
                 return id;

@@ -1,0 +1,18 @@
+.settings-root {
+    -fx-background-color: #f8f9fa;
+}
+
+.settings-title {
+    -fx-font-size: 34px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #0f172a;
+}
+
+.settings-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #586064;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-max-width: 520;
+}
+

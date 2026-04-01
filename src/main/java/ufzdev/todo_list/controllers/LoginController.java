@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.services.UserService;
 
-import javafx.scene.input.MouseEvent;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.TaskExecutorUtil;
@@ -38,15 +37,20 @@ public class LoginController {
         TaskExecutorUtil.execute(
                 () -> UserService.autenticate(userModel),
                 userModelAuthenticated -> {
-                    AlertsUtil.showSuccess("Login Exitoso", "Bienvenido, " + userModelAuthenticated.getUsername() + "!");
+                    if (userModelAuthenticated == null) {
+                        AlertsUtil.showError("Error durante la autenticación",
+                                "No se pudo autenticar. Verifique sus credenciales.");
+                        btnLogin.setDisable(false);
+                        return;
+                    }
+                    AlertsUtil.showSuccess("Login Exitoso",
+                            "Bienvenido, " + userModelAuthenticated.getUsername() + "!");
                     System.out.println("Login exitoso para el usuario: " + userModelAuthenticated.getUsername());
                     btnLogin.setDisable(false);
 
                     UserSessionUtil.getInstance().setUser(userModelAuthenticated);
-
-                    // Navegar a la vista principal
                     Stage stage = (Stage) btnLogin.getScene().getWindow();
-                    NavigationUtil.goToTasks(stage);
+                    afterLogin(stage, userModelAuthenticated);
                 },
                 error -> {
                     AlertsUtil.showError("Error durante la autenticación", "Error: " + error.getMessage());
@@ -60,15 +64,24 @@ public class LoginController {
     public void handleLoginTest() {
         btnTest.setDisable(true);
         TaskExecutorUtil.execute(
-                () -> UserService.loginTest(),
-                isAuthenticated -> {
-                    AlertsUtil.showSuccess("Inicio de sesión de prueba exitoso",
-                            "Se ha autenticado correctamente con el usuario de prueba.");
+                () -> {
+                    UserModel testUser = UserService.loginTest();
+                    testUser.setHasSettings(false);
+                    return testUser;
+                },
+                userAuthenticated -> {
+                    if (userAuthenticated == null) {
+                        AlertsUtil.showError("Error en el inicio de sesión de prueba", "No se pudo autenticar con el usuario de prueba.");
+                        btnTest.setDisable(false);
+                        return;
+                    }
+                    AlertsUtil.showSuccess("Inicio de sesión de prueba exitoso", "Se ha autenticado correctamente con el usuario de prueba.");
                     System.out.println("Login exitoso con el usuario de prueba.");
                     btnTest.setDisable(false);
-                    // Navegar a la vista principal
+
+                    UserSessionUtil.getInstance().setUser(userAuthenticated);
                     Stage stage = (Stage) btnTest.getScene().getWindow();
-                    NavigationUtil.goToTasks(stage);
+                    afterLogin(stage, userAuthenticated);
                 },
                 error -> {
                     AlertsUtil.showError("Error en el inicio de sesión de prueba",
@@ -79,8 +92,22 @@ public class LoginController {
         );
     }
 
+    private void afterLogin(Stage stage, UserModel user) {
+        if (user == null) {
+            NavigationUtil.goToLogin(stage);
+            return;
+        }
+
+        if (!user.isHasSettings()) {
+            NavigationUtil.goToSettings(stage);
+            return;
+        }
+
+        NavigationUtil.goToTasks(stage);
+    }
+
     @FXML
-    private void handleOpenRegister(MouseEvent event) {
+    private void handleOpenRegister() {
         NavigationUtil.goToRegister();
     }
 

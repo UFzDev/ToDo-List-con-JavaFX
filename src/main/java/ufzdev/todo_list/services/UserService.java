@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserService {
-    public static UserModel autenticate(UserModel userModel) throws Exception {
+    public static UserModel autenticate(UserModel userModel) {
         try {
             // Verificamos que el usuario existe en Firebase Auth
             UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(userModel.getEmail());
@@ -31,23 +31,39 @@ public class UserService {
                     userModel.setName(docRef.getString("nombre"));
                     userModel.setUsername(docRef.getString("usuario"));
 
+                    Boolean settings = docRef.getBoolean("hasSettings");
+                    userModel.setHasSettings(settings != null && settings);
                     // Retornamos el objeto completo para la sesión
                     return userModel;
                 }
             }
             throw new Exception("Credenciales incorrectas");
-        }catch (Exception e){
+        } catch (Exception e) {
             AlertsUtil.showError("Error de autenticación", "No se pudo autenticar. Verifique sus credenciales.");
             System.out.println("Error durante la autenticación: " + e.getMessage());
         }
         return null;
     }
 
-    public static UserModel loginTest() throws Exception {
+    public static UserModel loginTest() {
         UserModel testUserModel = new UserModel();
         testUserModel.setEmail("test@test.com");
         testUserModel.setPassword("123456");
+        testUserModel.setHasSettings(false);
         return autenticate(testUserModel);
+    }
+
+    public static void completeSettings(String userId) {
+        if (userId == null || userId.isBlank()) {
+            return;
+        }
+        try {
+            Firestore db = FirebaseConfig.getInstance().getFirestore();
+            db.collection("usuarios").document(userId).update("hasSettings", true).get();
+        } catch (Exception e) {
+            AlertsUtil.showError("Error al guardar configuración", "No se pudo actualizar el estado de configuración.");
+            System.out.println("Error al completar settings: " + e.getMessage());
+        }
     }
 
     public static void registerUser(UserModel userModel) throws Exception {
@@ -67,6 +83,7 @@ public class UserService {
         userData.put("usuario", userModel.getUsername());
         userData.put("correo", userModel.getEmail());
         userData.put("password", userModel.getPassword());
+        userData.put("hasSettings", false);
 
         // Guardamos usando el UID como nombre del documento
         db.collection("usuarios").document(uid).set(userData).get();
