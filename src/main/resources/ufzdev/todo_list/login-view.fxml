@@ -58,16 +58,16 @@
             <VBox spacing="20.0">
                 <VBox spacing="8.0">
                     <Label text="Correo" styleClass="field-label"/>
-                    <TextField fx:id="emailField" promptText="ejemplo@correo.com" styleClass="input-field"/>
+                    <TextField fx:id="emailField" promptText="ejemplo@ejemplo.com" styleClass="input-field"/>
                 </VBox>
 
                 <VBox spacing="8.0">
                     <Label text="Contraseña" styleClass="field-label" HBox.hgrow="ALWAYS"/>
-                    <PasswordField fx:id="passwordField" promptText="••••••••" styleClass="input-field"/>
+                    <PasswordField fx:id="passwordField" promptText="********" styleClass="input-field"/>
                 </VBox>
             </VBox>
 
-            <Button text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-primary"/>
+            <Button fx:id="btnLogin" text="Iniciar Sesión" onAction="#handleLogin" styleClass="btn-primary"/>
             <Button text="Anonimo" onAction="#handleLoginAnonimus" styleClass="btn-primary"/>
             <HBox spacing="5.0" alignment="CENTER">
                 <Label text="¿No tienes una cuenta?" styleClass="footer-text"/>
@@ -75,10 +75,7 @@
             </HBox>
 
 
-            <Button text="Ver proyecto en GitHub"
-                    onAction="#handleOpenGithub"
-                    styleClass="btn-social"
-                    maxWidth="1000"/>
+            <Button fx:id="btnGit" text="Ver proyecto en GitHub" onAction="#handleOpenGithub" styleClass="btn-social" maxWidth="1000"/>
         </VBox>
     </VBox>
 </HBox>

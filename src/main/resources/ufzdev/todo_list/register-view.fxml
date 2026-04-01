@@ -46,7 +46,7 @@
 
             <VBox spacing="6.0">
                 <Label text="NOMBRE" styleClass="field-label"/>
-                <TextField fx:id="nameField" promptText="Juan Arquitecto" styleClass="input-field"/>
+                <TextField fx:id="nameField" promptText="Juan" styleClass="input-field"/>
             </VBox>
 
             <HBox spacing="10.0">
@@ -56,7 +56,7 @@
                 </VBox>
                 <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                     <Label text="CORREO" styleClass="field-label"/>
-                    <TextField fx:id="emailField" promptText="juan@correo.com" styleClass="input-field"/>
+                    <TextField fx:id="emailField" promptText="ejemplo@ejemplo.com" styleClass="input-field"/>
                 </VBox>
             </HBox>
 
