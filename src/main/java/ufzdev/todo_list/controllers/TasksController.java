@@ -51,6 +51,9 @@ public class TasksController {
     @FXML
     private TableColumn<TaskModel, String> colDueDate;
 
+    @FXML
+    private TableColumn<TaskModel, String> colCreatedAt;
+
     private final TaskService taskService = new TaskService();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -101,6 +104,7 @@ public class TasksController {
         colDescription.setCellValueFactory(cell -> new SimpleStringProperty(safe(cell.getValue().getDescription())));
         colCategory.setCellValueFactory(cell -> new SimpleStringProperty(joinCategories(cell.getValue().getCategory())));
         colStatus.setCellValueFactory(cell -> new SimpleStringProperty(safe(cell.getValue().getStatus())));
+        colCreatedAt.setCellValueFactory(cell -> new SimpleStringProperty(formatCreatedAt(cell.getValue())));
         colDueDate.setCellValueFactory(cell -> new SimpleStringProperty(formatDate(cell.getValue())));
     }
 
@@ -190,6 +194,13 @@ public class TasksController {
             return "Sin fecha";
         }
         return dateFormat.format(task.getLimitDate());
+    }
+
+    private String formatCreatedAt(TaskModel task) {
+        if (task.getCreatedAt() == null) {
+            return "-";
+        }
+        return dateFormat.format(task.getCreatedAt());
     }
 
     private String safe(String value) {

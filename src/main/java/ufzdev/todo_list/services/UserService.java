@@ -31,7 +31,7 @@ public class UserService {
 
     public static UserModel loginTest() {
         UserModel testUserModel = new UserModel();
-        testUserModel.setUsername("test");
+        testUserModel.setUsername("test01");
         testUserModel.setPassword("123456");
         testUserModel.setHasSettings(false);
         return autenticate(testUserModel);
