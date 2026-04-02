@@ -57,8 +57,8 @@
 
             <VBox spacing="20.0">
                 <VBox spacing="8.0">
-                    <Label text="Correo" styleClass="field-label"/>
-                    <TextField fx:id="emailField" promptText="ejemplo@ejemplo.com" styleClass="input-field"/>
+                    <Label text="Nombre de usuario" styleClass="field-label"/>
+                    <TextField fx:id="usernameField" promptText="tu_usuario" styleClass="input-field"/>
                 </VBox>
 
                 <VBox spacing="8.0">

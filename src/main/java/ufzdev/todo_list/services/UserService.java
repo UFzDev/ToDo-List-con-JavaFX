@@ -12,16 +12,12 @@ public class UserService {
 
     public static UserModel autenticate(UserModel userModel) {
         try {
-            UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(userModel.getEmail());
-            String uid = userRecord.getUid();
-
-            UserModel userInDb = USER_DAO.findById(uid);
+            UserModel userInDb = USER_DAO.findByUsername(userModel.getUsername());
             if (userInDb == null) {
                 throw new Exception("Credenciales incorrectas");
             }
 
             if (userModel.getPassword().equals(userInDb.getPassword())) {
-                userInDb.setEmail(userModel.getEmail());
                 return userInDb;
             }
 
@@ -35,7 +31,7 @@ public class UserService {
 
     public static UserModel loginTest() {
         UserModel testUserModel = new UserModel();
-        testUserModel.setEmail("test@test.com");
+        testUserModel.setUsername("test");
         testUserModel.setPassword("123456");
         testUserModel.setHasSettings(false);
         return autenticate(testUserModel);

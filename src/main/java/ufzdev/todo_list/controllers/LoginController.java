@@ -18,7 +18,7 @@ import ufzdev.todo_list.util.UserSessionUtil;
 
 public class LoginController {
     @FXML
-    private TextField emailField;
+    private TextField usernameField;
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -31,7 +31,7 @@ public class LoginController {
     @FXML
     public void handleLogin() {
         UserModel userModel = new UserModel();
-        userModel.setEmail(emailField.getText());
+        userModel.setUsername(usernameField.getText());
         userModel.setPassword(passwordField.getText());
         btnLogin.setDisable(true);
         TaskExecutorUtil.execute(

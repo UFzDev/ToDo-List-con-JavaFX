@@ -22,6 +22,7 @@ import ufzdev.todo_list.models.StatusModel;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
+import ufzdev.todo_list.util.TaskExecutorUtil;
 import ufzdev.todo_list.util.UserSessionUtil;
 
 import java.time.ZoneId;
@@ -82,23 +83,31 @@ public class NewTaskController {
             return;
         }
 
-        try {
-            taskService.createTask(
-                    user,
-                    name,
-                    txtTaskDescription.getText() == null ? "" : txtTaskDescription.getText().trim(),
-                    dpLimitDate.getValue() == null ? null : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    selectedStatus.getName(),
-                    readSelectedCategories()
-            );
+        String description = txtTaskDescription.getText() == null ? "" : txtTaskDescription.getText().trim();
+        Date limitDate = dpLimitDate.getValue() == null
+                ? null
+                : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        List<CategoryModel> selectedCategories = readSelectedCategories();
 
-            AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
-            NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
-        } catch (Exception e) {
-            btnSaveTask.setDisable(false);
-            AlertsUtil.showError("Error al guardar", "No se pudo crear la tarea.");
-            System.out.println("Error guardando tarea: " + e.getMessage());
-        }
+        TaskExecutorUtil.execute(
+                () -> taskService.createTask(
+                        user,
+                        name,
+                        description,
+                        limitDate,
+                        selectedStatus.getName(),
+                        selectedCategories
+                ),
+                createdTask -> {
+                    AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
+                    NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
+                },
+                error -> {
+                    btnSaveTask.setDisable(false);
+                    AlertsUtil.showError("Error al guardar", "No se pudo crear la tarea.");
+                    System.out.println("Error guardando tarea: " + error.getMessage());
+                }
+        );
     }
 
     @FXML
