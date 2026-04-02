@@ -35,7 +35,13 @@ public class LoginController {
         userModel.setPassword(passwordField.getText());
         btnLogin.setDisable(true);
         TaskExecutorUtil.execute(
-                () -> UserService.autenticate(userModel),
+                () -> {
+                    UserModel authenticated = UserService.autenticate(userModel);
+                    if (authenticated != null) {
+                        UserSessionUtil.getInstance().loadSessionData(authenticated);
+                    }
+                    return authenticated;
+                },
                 userModelAuthenticated -> {
                     if (userModelAuthenticated == null) {
                         AlertsUtil.showError("Error durante la autenticación",
@@ -48,7 +54,6 @@ public class LoginController {
                     System.out.println("Login exitoso para el usuario: " + userModelAuthenticated.getUsername());
                     btnLogin.setDisable(false);
 
-                    UserSessionUtil.getInstance().setUser(userModelAuthenticated);
                     Stage stage = (Stage) btnLogin.getScene().getWindow();
                     afterLogin(stage, userModelAuthenticated);
                 },
@@ -66,7 +71,10 @@ public class LoginController {
         TaskExecutorUtil.execute(
                 () -> {
                     UserModel testUser = UserService.loginTest();
-                    testUser.setHasSettings(false);
+                    if (testUser != null) {
+                        testUser.setHasSettings(false);
+                        UserSessionUtil.getInstance().loadSessionData(testUser);
+                    }
                     return testUser;
                 },
                 userAuthenticated -> {
@@ -79,7 +87,6 @@ public class LoginController {
                     System.out.println("Login exitoso con el usuario de prueba.");
                     btnTest.setDisable(false);
 
-                    UserSessionUtil.getInstance().setUser(userAuthenticated);
                     Stage stage = (Stage) btnTest.getScene().getWindow();
                     afterLogin(stage, userAuthenticated);
                 },
@@ -98,13 +105,11 @@ public class LoginController {
             return;
         }
 
-        if (!user.isHasSettings()) {
-            NavigationUtil.goToTasks(stage);
-            NavigationUtil.goToSettings();
-            return;
-        }
-
         NavigationUtil.goToTasks(stage);
+
+        if (!user.isHasSettings()) {
+            NavigationUtil.goToSettings();
+        }
     }
 
     @FXML
