@@ -33,6 +33,25 @@ public class StatusFirestoreDao implements StatusDao {
     }
 
     @Override
+    public List<StatusModel> findByUserId(String userId) throws Exception {
+        if (userId == null || userId.isBlank()) {
+            return new ArrayList<>();
+        }
+
+        QuerySnapshot snapshot = db.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
+                .get()
+                .get();
+        List<StatusModel> statuses = new ArrayList<>();
+
+        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+            statuses.add(mapToStatus(doc));
+        }
+
+        return statuses;
+    }
+
+    @Override
     public void create(StatusModel statusModel) throws Exception {
         if (statusModel == null) {
             return;
@@ -40,6 +59,7 @@ public class StatusFirestoreDao implements StatusDao {
 
         Map<String, Object> data = new HashMap<>();
         data.put("id", statusModel.getId());
+        data.put("userId", statusModel.getUserId());
         data.put("nombre", statusModel.getName());
 
         db.collection(COLLECTION).add(data).get();
@@ -75,6 +95,9 @@ public class StatusFirestoreDao implements StatusDao {
 
         String id = doc.getString("id");
         item.setId(id == null || id.isBlank() ? doc.getId() : id);
+
+        String userId = doc.getString("userId");
+        item.setUserId(userId);
 
         String name = firstNonBlank(doc.getString("nombre"), doc.getString("name"));
         item.setName(name == null ? item.getId() : name);

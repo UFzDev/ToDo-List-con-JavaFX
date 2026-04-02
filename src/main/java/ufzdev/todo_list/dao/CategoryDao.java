@@ -7,6 +7,8 @@ import java.util.List;
 public interface CategoryDao {
     List<CategoryModel> findAll() throws Exception;
 
+    List<CategoryModel> findByUserId(String userId) throws Exception;
+
     void create(CategoryModel categoryModel) throws Exception;
 
     void deleteByDocumentId(String documentId) throws Exception;

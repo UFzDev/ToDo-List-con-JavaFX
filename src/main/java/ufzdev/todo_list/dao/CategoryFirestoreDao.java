@@ -33,6 +33,25 @@ public class CategoryFirestoreDao implements CategoryDao {
     }
 
     @Override
+    public List<CategoryModel> findByUserId(String userId) throws Exception {
+        if (userId == null || userId.isBlank()) {
+            return new ArrayList<>();
+        }
+
+        QuerySnapshot snapshot = db.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
+                .get()
+                .get();
+        List<CategoryModel> categories = new ArrayList<>();
+
+        for (DocumentSnapshot doc : snapshot.getDocuments()) {
+            categories.add(mapToCategory(doc));
+        }
+
+        return categories;
+    }
+
+    @Override
     public void create(CategoryModel categoryModel) throws Exception {
         if (categoryModel == null) {
             return;
@@ -40,6 +59,7 @@ public class CategoryFirestoreDao implements CategoryDao {
 
         Map<String, Object> data = new HashMap<>();
         data.put("id", categoryModel.getId());
+        data.put("userId", categoryModel.getUserId());
         data.put("nombre", categoryModel.getName());
         data.put("descripcion", categoryModel.getDescription());
 
@@ -75,6 +95,9 @@ public class CategoryFirestoreDao implements CategoryDao {
         CategoryModel item = new CategoryModel();
         Long id = doc.getLong("id");
         item.setId(id == null ? 0 : id.intValue());
+
+        String userId = doc.getString("userId");
+        item.setUserId(userId);
 
         String name = firstNonBlank(doc.getString("nombre"), doc.getString("name"));
         item.setName(name == null ? doc.getId() : name);

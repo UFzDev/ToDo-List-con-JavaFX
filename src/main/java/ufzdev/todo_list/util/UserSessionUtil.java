@@ -52,8 +52,8 @@ public class UserSessionUtil {
 
     // Carga catalogos y tareas una sola vez al iniciar sesion.
     public synchronized void loadSessionData(UserModel userModel) throws Exception {
-        List<CategoryModel> loadedCategories = categoryDao.findAll();
-        List<StatusModel> loadedStatuses = statusDao.findAll();
+        List<CategoryModel> loadedCategories = userModel == null ? new ArrayList<>() : categoryDao.findByUserId(userModel.getId());
+        List<StatusModel> loadedStatuses = userModel == null ? new ArrayList<>() : statusDao.findByUserId(userModel.getId());
         List<TaskModel> loadedTasks = userModel == null ? new ArrayList<>() : taskDao.findByUserId(userModel.getId());
         setSessionData(userModel, loadedCategories, loadedStatuses, loadedTasks);
     }

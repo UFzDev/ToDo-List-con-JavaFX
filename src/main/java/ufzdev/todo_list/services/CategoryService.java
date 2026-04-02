@@ -3,6 +3,7 @@ package ufzdev.todo_list.services;
 import ufzdev.todo_list.dao.CategoryDao;
 import ufzdev.todo_list.dao.CategoryFirestoreDao;
 import ufzdev.todo_list.models.CategoryModel;
+import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.util.UserSessionUtil;
 
 import java.util.ArrayList;
@@ -17,9 +18,15 @@ public class CategoryService {
     }
 
     public CategoryModel createCategory(String name) throws Exception {
+        UserModel user = session.getUser();
+        if (user == null) {
+            throw new Exception("Usuario no autenticado");
+        }
+
         CategoryModel category = new CategoryModel();
         category.setName(name);
         category.setDescription("");
+        category.setUserId(user.getId());
 
         categoryDao.create(category);
         session.addCategory(category);
@@ -31,4 +38,3 @@ public class CategoryService {
         session.removeCategoryByName(name);
     }
 }
-
