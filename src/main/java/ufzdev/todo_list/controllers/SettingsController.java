@@ -7,17 +7,15 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ufzdev.todo_list.dao.CategoryDao;
-import ufzdev.todo_list.dao.CategoryFirestoreDao;
-import ufzdev.todo_list.dao.StatusDao;
-import ufzdev.todo_list.dao.StatusFirestoreDao;
-import ufzdev.todo_list.models.CategoryModel;
-import ufzdev.todo_list.models.StatusModel;
+import ufzdev.todo_list.services.CategoryService;
+import ufzdev.todo_list.services.StatusService;
 import ufzdev.todo_list.services.UserService;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.TaskExecutorUtil;
 import ufzdev.todo_list.util.UserSessionUtil;
+import ufzdev.todo_list.models.CategoryModel;
+import ufzdev.todo_list.models.StatusModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +48,8 @@ public class SettingsController {
     @FXML
     private Button btnContinue;
 
-    private final CategoryDao categoryDao = new CategoryFirestoreDao();
-    private final StatusDao statusDao = new StatusFirestoreDao();
+    private final CategoryService categoryService = new CategoryService();
+    private final StatusService statusService = new StatusService();
     private final UserSessionUtil session = UserSessionUtil.getInstance();
 
     @FXML
@@ -70,15 +68,8 @@ public class SettingsController {
 
         setCategoryControlsDisabled(true);
         TaskExecutorUtil.execute(
-                () -> {
-                    CategoryModel category = new CategoryModel();
-                    category.setName(name);
-                    category.setDescription("");
-                    categoryDao.create(category);
-                    return category;
-                },
+                () -> categoryService.createCategory(name),
                 category -> {
-                    session.addCategory(category);
                     txtCategoryName.clear();
                     refreshListsFromSession();
                     AlertsUtil.showSuccess("Categoria agregada", "La categoria se guardo correctamente.");
@@ -104,11 +95,10 @@ public class SettingsController {
         setCategoryControlsDisabled(true);
         TaskExecutorUtil.execute(
                 () -> {
-                    categoryDao.deleteByName(selectedName);
+                    categoryService.deleteCategoryByName(selectedName);
                     return selectedName;
                 },
                 deletedName -> {
-                    session.removeCategoryByName(deletedName);
                     refreshListsFromSession();
                     AlertsUtil.showSuccess("Categoria eliminada", "La categoria se elimino correctamente.");
                     setCategoryControlsDisabled(false);
@@ -131,14 +121,8 @@ public class SettingsController {
 
         setStatusControlsDisabled(true);
         TaskExecutorUtil.execute(
-                () -> {
-                    StatusModel status = new StatusModel();
-                    status.setName(name);
-                    statusDao.create(status);
-                    return status;
-                },
+                () -> statusService.createStatus(name),
                 status -> {
-                    session.addStatus(status);
                     txtStatusName.clear();
                     refreshListsFromSession();
                     AlertsUtil.showSuccess("Estado agregado", "El estado se guardo correctamente.");
@@ -164,11 +148,10 @@ public class SettingsController {
         setStatusControlsDisabled(true);
         TaskExecutorUtil.execute(
                 () -> {
-                    statusDao.deleteByName(selectedName);
+                    statusService.deleteStatusByName(selectedName);
                     return selectedName;
                 },
                 deletedName -> {
-                    session.removeStatusByName(deletedName);
                     refreshListsFromSession();
                     AlertsUtil.showSuccess("Estado eliminado", "El estado se elimino correctamente.");
                     setStatusControlsDisabled(false);
@@ -235,8 +218,8 @@ public class SettingsController {
     }
 
     private void refreshListsFromSession() {
-        List<CategoryModel> categories = new ArrayList<>(session.getCategories());
-        List<StatusModel> statuses = new ArrayList<>(session.getStatuses());
+        List<CategoryModel> categories = categoryService.getSessionCategories();
+        List<StatusModel> statuses = statusService.getSessionStatuses();
         listCategories.setItems(FXCollections.observableArrayList(categories));
         listStatuses.setItems(FXCollections.observableArrayList(statuses));
     }
