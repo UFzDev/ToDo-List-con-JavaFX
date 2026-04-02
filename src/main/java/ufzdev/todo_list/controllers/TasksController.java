@@ -118,6 +118,25 @@ public class TasksController {
     }
 
     @FXML
+    public void handleLogout() {
+        TaskExecutorUtil.execute(
+                () -> {
+                    UserSessionUtil.getInstance().cleanSession();
+                    return true;
+                },
+                success -> {
+                    AlertsUtil.showSuccess("Sesión cerrada", "Has cerrado sesión correctamente.");
+                    Stage stage = (Stage) lblUserName.getScene().getWindow();
+                    NavigationUtil.goToLogin(stage);
+                },
+                error -> {
+                    AlertsUtil.showError("Error al cerrar sesión", "No se pudo cerrar la sesión.");
+                    System.out.println("Error cerrando sesión: " + error.getMessage());
+                }
+        );
+    }
+
+    @FXML
     public void handleFilterChanged() {
         applyFilters();
     }

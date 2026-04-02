@@ -42,6 +42,7 @@
                 <Label text="Usuario" styleClass="sidebar-user-label"/>
                 <Label fx:id="lblUserName" styleClass="profile-name" text="" />
                 <Button text="Editar categorías y estados" onAction="#handleOpenSettings" styleClass="btn-tertiary" maxWidth="1000"/>
+                <Button text="Cerrar sesión" onAction="#handleLogout" styleClass="btn-secondary" maxWidth="1000"/>
             </VBox>
         </VBox>
     </left>
