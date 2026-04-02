@@ -57,10 +57,6 @@ public class UserSessionUtil {
         setSessionData(userModel, loadedCategories, loadedStatuses, loadedTasks);
     }
 
-    public synchronized void setUser(UserModel userModel) {
-        this.currentUserModel = userModel;
-    }
-
     public synchronized UserModel getUser() {
         return currentUserModel;
     }
@@ -81,6 +77,26 @@ public class UserSessionUtil {
         if (category != null) {
             categories.add(category);
         }
+    }
+
+    public synchronized void addStatus(StatusModel status) {
+        if (status != null) {
+            statuses.add(status);
+        }
+    }
+
+    public synchronized void removeCategoryByName(String name) {
+        if (name == null || name.isBlank()) {
+            return;
+        }
+        categories.removeIf(item -> name.equalsIgnoreCase(item.getName()));
+    }
+
+    public synchronized void removeStatusByName(String name) {
+        if (name == null || name.isBlank()) {
+            return;
+        }
+        statuses.removeIf(item -> name.equalsIgnoreCase(item.getName()));
     }
 
     public synchronized void addTask(TaskModel task) {

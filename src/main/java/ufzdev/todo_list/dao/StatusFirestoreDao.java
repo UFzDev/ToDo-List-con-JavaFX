@@ -2,6 +2,7 @@ package ufzdev.todo_list.dao;
 
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import ufzdev.todo_list.config.FirebaseConfig;
 import ufzdev.todo_list.models.StatusModel;
@@ -51,6 +52,22 @@ public class StatusFirestoreDao implements StatusDao {
         }
 
         db.collection(COLLECTION).document(documentId).delete().get();
+    }
+
+    @Override
+    public void deleteByName(String name) throws Exception {
+        if (name == null || name.isBlank()) {
+            return;
+        }
+
+        QuerySnapshot snapshot = db.collection(COLLECTION)
+                .whereEqualTo("nombre", name)
+                .get()
+                .get();
+
+        for (QueryDocumentSnapshot doc : snapshot.getDocuments()) {
+            doc.getReference().delete().get();
+        }
     }
 
     private StatusModel mapToStatus(DocumentSnapshot doc) {

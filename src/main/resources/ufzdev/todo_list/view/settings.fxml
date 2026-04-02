@@ -45,12 +45,12 @@
 
                     <HBox spacing="10.0">
                         <TextField fx:id="txtCategoryName" promptText="Nueva categoria" styleClass="input-field" HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="btnAddCategory" text="Agregar" styleClass="btn-primary, settings-mini-btn"/>
+                        <Button fx:id="btnAddCategory" text="Agregar" onAction="#handleAddCategory" styleClass="btn-primary, settings-mini-btn"/>
                     </HBox>
 
                     <ListView fx:id="listCategories" VBox.vgrow="ALWAYS" prefHeight="260.0" styleClass="settings-list"/>
 
-                    <Button fx:id="btnDeleteCategory" text="Eliminar seleccionada" styleClass="btn-secondary" maxWidth="1000"/>
+                    <Button fx:id="btnDeleteCategory" text="Eliminar seleccionada" onAction="#handleDeleteCategory" styleClass="btn-secondary" maxWidth="1000"/>
                 </VBox>
 
                 <VBox spacing="12.0" styleClass="settings-card" HBox.hgrow="ALWAYS" prefWidth="560.0">
@@ -60,12 +60,12 @@
 
                     <HBox spacing="10.0">
                         <TextField fx:id="txtStatusName" promptText="Nuevo estado" styleClass="input-field" HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="btnAddStatus" text="Agregar" styleClass="btn-primary, settings-mini-btn"/>
+                        <Button fx:id="btnAddStatus" text="Agregar" onAction="#handleAddStatus" styleClass="btn-primary, settings-mini-btn"/>
                     </HBox>
 
                     <ListView fx:id="listStatuses" VBox.vgrow="ALWAYS" prefHeight="260.0" styleClass="settings-list"/>
 
-                    <Button fx:id="btnDeleteStatus" text="Eliminar seleccionado" styleClass="btn-secondary" maxWidth="1000"/>
+                    <Button fx:id="btnDeleteStatus" text="Eliminar seleccionado" onAction="#handleDeleteStatus" styleClass="btn-secondary" maxWidth="1000"/>
                 </VBox>
             </HBox>
         </VBox>
@@ -73,6 +73,6 @@
 
     <HBox spacing="12.0" alignment="CENTER_RIGHT" styleClass="settings-footer">
         <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="btnContinue" text="Guardar y continuar" onAction="#handleContinue" styleClass="btn-primary, settings-cta" maxWidth="1000"/>
+        <Button fx:id="btnContinue" text="Continuar" onAction="#handleContinue" styleClass="btn-primary, settings-cta" maxWidth="1000"/>
     </HBox>
 </VBox>

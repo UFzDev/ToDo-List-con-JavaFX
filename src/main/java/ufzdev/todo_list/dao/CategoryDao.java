@@ -10,4 +10,6 @@ public interface CategoryDao {
     void create(CategoryModel categoryModel) throws Exception;
 
     void deleteByDocumentId(String documentId) throws Exception;
+
+    void deleteByName(String name) throws Exception;
 }
