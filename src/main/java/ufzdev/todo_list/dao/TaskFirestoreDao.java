@@ -4,6 +4,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import ufzdev.todo_list.config.FirebaseConfig;
+import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.TaskModel;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class TaskFirestoreDao implements TaskDao {
         data.put("estado", taskModel.getStatus());
         data.put("createdAt", taskModel.getCreatedAt() == null ? new Date() : taskModel.getCreatedAt());
         data.put("limitDate", taskModel.getLimitDate());
+        data.put("categorias", extractCategoryNames(taskModel.getCategory()));
 
         return db.collection(COLLECTION).add(data).get().getId();
     }
@@ -91,7 +93,35 @@ public class TaskFirestoreDao implements TaskDao {
         Date limitDate = firstDate(doc.getDate("limitDate"), doc.getDate("fechaLimite"));
         task.setCreatedAt(createdAt);
         task.setLimitDate(limitDate);
+
+        List<?> storedCategories = doc.get("categorias", List.class);
+        if (storedCategories != null) {
+            List<CategoryModel> categories = new ArrayList<>();
+            for (Object value : storedCategories) {
+                if (value != null) {
+                    CategoryModel category = new CategoryModel();
+                    category.setName(String.valueOf(value));
+                    categories.add(category);
+                }
+            }
+            task.setCategory(categories);
+        }
+
         return task;
+    }
+
+    private List<String> extractCategoryNames(List<CategoryModel> categories) {
+        List<String> names = new ArrayList<>();
+        if (categories == null) {
+            return names;
+        }
+
+        for (CategoryModel category : categories) {
+            if (category != null && category.getName() != null && !category.getName().isBlank()) {
+                names.add(category.getName());
+            }
+        }
+        return names;
     }
 
     private String firstNonBlank(String primary, String fallback) {

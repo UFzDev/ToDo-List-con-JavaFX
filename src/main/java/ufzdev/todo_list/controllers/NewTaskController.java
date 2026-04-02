@@ -16,15 +16,22 @@ import ufzdev.todo_list.dao.CategoryDao;
 import ufzdev.todo_list.dao.CategoryFirestoreDao;
 import ufzdev.todo_list.dao.StatusDao;
 import ufzdev.todo_list.dao.StatusFirestoreDao;
+import ufzdev.todo_list.dao.TaskDao;
+import ufzdev.todo_list.dao.TaskFirestoreDao;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.StatusModel;
+import ufzdev.todo_list.models.TaskModel;
+import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.UserSessionUtil;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class NewTaskController {
     @FXML
     private VBox rootVBox;
@@ -43,6 +50,7 @@ public class NewTaskController {
 
     private final CategoryDao categoryDao = new CategoryFirestoreDao();
     private final StatusDao statusDao = new StatusFirestoreDao();
+    private final TaskDao taskDao = new TaskFirestoreDao();
 
     @FXML
     public void initialize() {
@@ -52,6 +60,51 @@ public class NewTaskController {
 
     @FXML
     public void handleCreateTask() {
+        btnSaveTask.setDisable(true);
+        UserSessionUtil session = UserSessionUtil.getInstance();
+        UserModel user = session.getUser();
+
+        if (user == null) {
+            AlertsUtil.showError("Sesion no disponible", "Inicia sesion nuevamente para guardar la tarea.");
+            btnSaveTask.setDisable(false);
+            return;
+        }
+
+        String name = txtTaskName.getText() == null ? "" : txtTaskName.getText().trim();
+        if (name.isBlank()) {
+            AlertsUtil.showError("Nombre requerido", "Escribe un nombre para la tarea.");
+            btnSaveTask.setDisable(false);
+            return;
+        }
+
+        StatusModel selectedStatus = cmbStatus.getValue();
+        if (selectedStatus == null) {
+            AlertsUtil.showError("Estado requerido", "Selecciona un estado para la tarea.");
+            btnSaveTask.setDisable(false);
+            return;
+        }
+
+        try {
+            TaskModel task = new TaskModel();
+            task.setUserId(user.getId());
+            task.setName(name);
+            task.setDescription(txtTaskDescription.getText() == null ? "" : txtTaskDescription.getText().trim());
+            task.setStatus(selectedStatus.getName());
+            task.setCreatedAt(new Date());
+            task.setLimitDate(dpLimitDate.getValue() == null ? null : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            task.setCategory(readSelectedCategories());
+
+            String taskId = taskDao.create(task);
+            task.setId(taskId);
+            session.addTask(task);
+
+            AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
+            NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
+        } catch (Exception e) {
+            btnSaveTask.setDisable(false);
+            AlertsUtil.showError("Error al guardar", "No se pudo crear la tarea.");
+            System.out.println("Error guardando tarea: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -116,5 +169,15 @@ public class NewTaskController {
             option.getStyleClass().add("task-category-check");
             categoriesPane.getChildren().add(option);
         }
+    }
+
+    private List<CategoryModel> readSelectedCategories() {
+        List<CategoryModel> selected = new ArrayList<>();
+        for (javafx.scene.Node node : categoriesPane.getChildren()) {
+            if (node instanceof CheckBox checkBox && checkBox.isSelected() && checkBox.getUserData() instanceof CategoryModel category) {
+                selected.add(category);
+            }
+        }
+        return selected;
     }
 }

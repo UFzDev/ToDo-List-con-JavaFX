@@ -34,7 +34,6 @@ public class RegisterController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        // Bloqueamos el botón o lanzamos un indicador de carga si lo tienes
         btnRegister.setDisable(true);
 
         UserModel newUserModel = new UserModel();

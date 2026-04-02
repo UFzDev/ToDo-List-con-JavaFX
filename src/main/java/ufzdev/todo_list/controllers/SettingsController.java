@@ -63,6 +63,7 @@ public class SettingsController {
             session.addCategory(category);
             txtCategoryName.clear();
             refreshListsFromSession();
+            AlertsUtil.showSuccess("Categoria agregada", "La categoria se guardo correctamente.");
         } catch (Exception e) {
             AlertsUtil.showError("Error al guardar", "No se pudo crear la categoria.");
             System.out.println("Error al crear categoria: " + e.getMessage());
@@ -81,6 +82,7 @@ public class SettingsController {
             categoryDao.deleteByName(selected.getName());
             session.removeCategoryByName(selected.getName());
             refreshListsFromSession();
+            AlertsUtil.showSuccess("Categoria eliminada", "La categoria se elimino correctamente.");
         } catch (Exception e) {
             AlertsUtil.showError("Error al eliminar", "No se pudo eliminar la categoria.");
             System.out.println("Error al eliminar categoria: " + e.getMessage());
@@ -102,6 +104,7 @@ public class SettingsController {
             session.addStatus(status);
             txtStatusName.clear();
             refreshListsFromSession();
+            AlertsUtil.showSuccess("Estado agregado", "El estado se guardo correctamente.");
         } catch (Exception e) {
             AlertsUtil.showError("Error al guardar", "No se pudo crear el estado.");
             System.out.println("Error al crear estado: " + e.getMessage());
@@ -120,6 +123,7 @@ public class SettingsController {
             statusDao.deleteByName(selected.getName());
             session.removeStatusByName(selected.getName());
             refreshListsFromSession();
+            AlertsUtil.showSuccess("Estado eliminado", "El estado se elimino correctamente.");
         } catch (Exception e) {
             AlertsUtil.showError("Error al eliminar", "No se pudo eliminar el estado.");
             System.out.println("Error al eliminar estado: " + e.getMessage());
@@ -133,6 +137,7 @@ public class SettingsController {
                 UserService.completeSettings(session.getUser().getId());
                 session.getUser().setHasSettings(true);
             }
+            AlertsUtil.showSuccess("Configuracion guardada", "Tus categorias y estados quedaron listos.");
             NavigationUtil.closeModal((Stage) btnContinue.getScene().getWindow());
         } catch (Exception e) {
             AlertsUtil.showError("Error", "No se pudo cerrar la configuracion.");
