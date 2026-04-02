@@ -3,11 +3,8 @@ package ufzdev.todo_list.controllers;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.TaskModel;
@@ -23,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TasksController {
+    @FXML
+    private BorderPane rootPane;
+
     @FXML
     private Label lblUserName;
 
@@ -58,6 +58,16 @@ public class TasksController {
 
     private final TaskService taskService = new TaskService();
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+    @FXML
+    public void handleGoToReports(){
+        Stage stage = getCurrentStage();
+        if (stage != null) {
+            NavigationUtil.goToReports(stage);
+        }
+    }
+
+
 
     @FXML
     public void initialize() {
@@ -264,5 +274,12 @@ public class TasksController {
 
     private String safe(String value) {
         return value == null || value.isBlank() ? "-" : value;
+    }
+
+    private Stage getCurrentStage() {
+        if (rootPane == null || rootPane.getScene() == null || rootPane.getScene().getWindow() == null) {
+            return null;
+        }
+        return (Stage) rootPane.getScene().getWindow();
     }
 }

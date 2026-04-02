@@ -185,7 +185,7 @@ public class NewTaskController {
         for (CategoryModel category : categories) {
             CheckBox option = new CheckBox(category.getName());
             option.setUserData(category);
-            option.getStyleClass().add("task-category-check");
+            option.getStyleClass().add("app-filter-check");
             categoriesPane.getChildren().add(option);
         }
     }

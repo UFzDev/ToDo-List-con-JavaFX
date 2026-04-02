@@ -149,3 +149,34 @@
 .link-text:hover {
     -fx-text-fill: #0052a0;
 }
+
+/* ============================================
+   CHECKBOXES REUTILIZABLES
+   ============================================ */
+
+.app-filter-check {
+    -fx-text-fill: #334155;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 8 0 8 0;
+}
+
+.app-filter-check:hover {
+    -fx-text-fill: #0f172a;
+}
+
+.app-filter-check .box {
+    -fx-background-color: #eef2f7;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.app-filter-check:selected .box {
+    -fx-background-color: #005db5;
+    -fx-border-color: #005db5;
+}
+
+.app-filter-check:selected .mark {
+    -fx-background-color: white;
+}

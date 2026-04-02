@@ -21,6 +21,7 @@ public class NavigationUtil {
             stage.setTitle(title);
             stage.setScene(scene);
             stage.centerOnScreen();
+            //stage.setMaximized(true);
             stage.show();
 
         } catch (IOException e) {
@@ -36,6 +37,10 @@ public class NavigationUtil {
 
     public static void goToTasks(Stage stage) {
         renderView(stage, "tasks.fxml", "Gestión de Tareas - ToDo List", 1400, 900);
+    }
+
+    public static void goToReports(Stage stage) {
+        renderView(stage, "reports.fxml", "Reportes - ToDo List", 1400, 900);
     }
 
 
