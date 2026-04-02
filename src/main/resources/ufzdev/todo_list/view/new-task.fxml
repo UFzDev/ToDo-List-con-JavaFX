@@ -38,31 +38,31 @@
 
         <VBox spacing="6.0" styleClass="task-field-group">
             <Label text="NOMBRE DE LA TAREA" styleClass="field-label"/>
-            <TextField promptText="Ej. Preparar presentación" styleClass="task-input"/>
+            <TextField fx:id="txtTaskName" promptText="Ej. Preparar presentación" styleClass="task-input"/>
         </VBox>
 
         <VBox spacing="6.0" styleClass="task-field-group">
             <Label text="DESCRIPCIÓN" styleClass="field-label"/>
-            <TextArea promptText="Describe brevemente lo que se debe hacer"
+            <TextArea fx:id="txtTaskDescription" promptText="Describe brevemente lo que se debe hacer"
                       styleClass="task-text-area" wrapText="true" prefRowCount="5"/>
         </VBox>
 
         <HBox spacing="12.0">
             <VBox spacing="6.0" styleClass="task-field-group" HBox.hgrow="ALWAYS">
                 <Label text="FECHA LÍMITE" styleClass="field-label"/>
-                <DatePicker promptText="Selecciona una fecha" editable="false"
+                <DatePicker fx:id="dpLimitDate" promptText="Selecciona una fecha" editable="false"
                             styleClass="task-control" maxWidth="1000"/>
             </VBox>
 
             <VBox spacing="6.0" styleClass="task-field-group" HBox.hgrow="ALWAYS">
                 <Label text="ESTADO" styleClass="field-label"/>
-                <ComboBox promptText="Selecciona un estado" styleClass="task-control" maxWidth="1000"/>
+                <ComboBox fx:id="cmbStatus" promptText="Selecciona un estado" styleClass="task-control" maxWidth="1000"/>
             </VBox>
         </HBox>
 
         <VBox spacing="6.0" styleClass="task-field-group">
             <Label text="CATEGORÍAS" styleClass="field-label"/>
-            <FlowPane hgap="10.0" vgap="10.0" styleClass="task-category-options"/>
+            <FlowPane fx:id="categoriesPane" hgap="10.0" vgap="10.0" styleClass="task-category-options"/>
         </VBox>
 
         <Region VBox.vgrow="ALWAYS"/>
@@ -70,7 +70,7 @@
         <Separator styleClass="task-modal-separator"/>
 
         <VBox spacing="12.0" styleClass="task-modal-footer">
-            <Button text="Guardar tarea" styleClass="btn-primary, task-primary-button" maxWidth="1000"/>
+            <Button fx:id="btnSaveTask" text="Guardar tarea" onAction="#handleCreateTask" styleClass="btn-primary, task-primary-button" maxWidth="1000"/>
             <Button onAction="#handleCancel" text="Cancelar" styleClass="btn-tertiary, task-secondary-button" maxWidth="1000"/>
         </VBox>
     </VBox>

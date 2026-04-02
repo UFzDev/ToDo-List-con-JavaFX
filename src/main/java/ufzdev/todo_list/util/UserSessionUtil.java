@@ -31,6 +31,7 @@ public class UserSessionUtil {
         this.taskDao = new TaskFirestoreDao();
     }
 
+    // Devuelve la misma instancia de UserSessionUtil para toda la aplicación
     public static synchronized UserSessionUtil getInstance() {
         if (instance == null) {
             instance = new UserSessionUtil();
@@ -38,7 +39,6 @@ public class UserSessionUtil {
         return instance;
     }
 
-    // Guarda todo el snapshot de sesion de una sola vez.
     public synchronized void setSessionData(UserModel userModel,
                                             List<CategoryModel> categories,
                                             List<StatusModel> statuses,
