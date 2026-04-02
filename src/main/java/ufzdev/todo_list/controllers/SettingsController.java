@@ -16,6 +16,7 @@ import ufzdev.todo_list.models.StatusModel;
 import ufzdev.todo_list.services.UserService;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
+import ufzdev.todo_list.util.TaskExecutorUtil;
 import ufzdev.todo_list.util.UserSessionUtil;
 
 import java.util.ArrayList;
@@ -33,6 +34,18 @@ public class SettingsController {
 
     @FXML
     private ListView<StatusModel> listStatuses;
+
+    @FXML
+    private Button btnAddCategory;
+
+    @FXML
+    private Button btnDeleteCategory;
+
+    @FXML
+    private Button btnAddStatus;
+
+    @FXML
+    private Button btnDeleteStatus;
 
     @FXML
     private Button btnContinue;
@@ -55,19 +68,28 @@ public class SettingsController {
             return;
         }
 
-        try {
-            CategoryModel category = new CategoryModel();
-            category.setName(name);
-            category.setDescription("");
-            categoryDao.create(category);
-            session.addCategory(category);
-            txtCategoryName.clear();
-            refreshListsFromSession();
-            AlertsUtil.showSuccess("Categoria agregada", "La categoria se guardo correctamente.");
-        } catch (Exception e) {
-            AlertsUtil.showError("Error al guardar", "No se pudo crear la categoria.");
-            System.out.println("Error al crear categoria: " + e.getMessage());
-        }
+        setCategoryControlsDisabled(true);
+        TaskExecutorUtil.execute(
+                () -> {
+                    CategoryModel category = new CategoryModel();
+                    category.setName(name);
+                    category.setDescription("");
+                    categoryDao.create(category);
+                    return category;
+                },
+                category -> {
+                    session.addCategory(category);
+                    txtCategoryName.clear();
+                    refreshListsFromSession();
+                    AlertsUtil.showSuccess("Categoria agregada", "La categoria se guardo correctamente.");
+                    setCategoryControlsDisabled(false);
+                },
+                error -> {
+                    AlertsUtil.showError("Error al guardar", "No se pudo crear la categoria.");
+                    System.out.println("Error al crear categoria: " + error.getMessage());
+                    setCategoryControlsDisabled(false);
+                }
+        );
     }
 
     @FXML
@@ -78,15 +100,25 @@ public class SettingsController {
             return;
         }
 
-        try {
-            categoryDao.deleteByName(selected.getName());
-            session.removeCategoryByName(selected.getName());
-            refreshListsFromSession();
-            AlertsUtil.showSuccess("Categoria eliminada", "La categoria se elimino correctamente.");
-        } catch (Exception e) {
-            AlertsUtil.showError("Error al eliminar", "No se pudo eliminar la categoria.");
-            System.out.println("Error al eliminar categoria: " + e.getMessage());
-        }
+        String selectedName = selected.getName();
+        setCategoryControlsDisabled(true);
+        TaskExecutorUtil.execute(
+                () -> {
+                    categoryDao.deleteByName(selectedName);
+                    return selectedName;
+                },
+                deletedName -> {
+                    session.removeCategoryByName(deletedName);
+                    refreshListsFromSession();
+                    AlertsUtil.showSuccess("Categoria eliminada", "La categoria se elimino correctamente.");
+                    setCategoryControlsDisabled(false);
+                },
+                error -> {
+                    AlertsUtil.showError("Error al eliminar", "No se pudo eliminar la categoria.");
+                    System.out.println("Error al eliminar categoria: " + error.getMessage());
+                    setCategoryControlsDisabled(false);
+                }
+        );
     }
 
     @FXML
@@ -97,18 +129,27 @@ public class SettingsController {
             return;
         }
 
-        try {
-            StatusModel status = new StatusModel();
-            status.setName(name);
-            statusDao.create(status);
-            session.addStatus(status);
-            txtStatusName.clear();
-            refreshListsFromSession();
-            AlertsUtil.showSuccess("Estado agregado", "El estado se guardo correctamente.");
-        } catch (Exception e) {
-            AlertsUtil.showError("Error al guardar", "No se pudo crear el estado.");
-            System.out.println("Error al crear estado: " + e.getMessage());
-        }
+        setStatusControlsDisabled(true);
+        TaskExecutorUtil.execute(
+                () -> {
+                    StatusModel status = new StatusModel();
+                    status.setName(name);
+                    statusDao.create(status);
+                    return status;
+                },
+                status -> {
+                    session.addStatus(status);
+                    txtStatusName.clear();
+                    refreshListsFromSession();
+                    AlertsUtil.showSuccess("Estado agregado", "El estado se guardo correctamente.");
+                    setStatusControlsDisabled(false);
+                },
+                error -> {
+                    AlertsUtil.showError("Error al guardar", "No se pudo crear el estado.");
+                    System.out.println("Error al crear estado: " + error.getMessage());
+                    setStatusControlsDisabled(false);
+                }
+        );
     }
 
     @FXML
@@ -119,30 +160,50 @@ public class SettingsController {
             return;
         }
 
-        try {
-            statusDao.deleteByName(selected.getName());
-            session.removeStatusByName(selected.getName());
-            refreshListsFromSession();
-            AlertsUtil.showSuccess("Estado eliminado", "El estado se elimino correctamente.");
-        } catch (Exception e) {
-            AlertsUtil.showError("Error al eliminar", "No se pudo eliminar el estado.");
-            System.out.println("Error al eliminar estado: " + e.getMessage());
-        }
+        String selectedName = selected.getName();
+        setStatusControlsDisabled(true);
+        TaskExecutorUtil.execute(
+                () -> {
+                    statusDao.deleteByName(selectedName);
+                    return selectedName;
+                },
+                deletedName -> {
+                    session.removeStatusByName(deletedName);
+                    refreshListsFromSession();
+                    AlertsUtil.showSuccess("Estado eliminado", "El estado se elimino correctamente.");
+                    setStatusControlsDisabled(false);
+                },
+                error -> {
+                    AlertsUtil.showError("Error al eliminar", "No se pudo eliminar el estado.");
+                    System.out.println("Error al eliminar estado: " + error.getMessage());
+                    setStatusControlsDisabled(false);
+                }
+        );
     }
 
     @FXML
     public void handleContinue() {
-        try {
-            if (session.getUser() != null) {
-                UserService.completeSettings(session.getUser().getId());
-                session.getUser().setHasSettings(true);
-            }
-            AlertsUtil.showSuccess("Configuracion guardada", "Tus categorias y estados quedaron listos.");
-            NavigationUtil.closeModal((Stage) btnContinue.getScene().getWindow());
-        } catch (Exception e) {
-            AlertsUtil.showError("Error", "No se pudo cerrar la configuracion.");
-            System.out.println("Error al continuar desde settings: " + e.getMessage());
-        }
+        setContinueDisabled(true);
+        TaskExecutorUtil.execute(
+                () -> {
+                    if (session.getUser() != null) {
+                        UserService.completeSettings(session.getUser().getId());
+                    }
+                    return true;
+                },
+                ignored -> {
+                    if (session.getUser() != null) {
+                        session.getUser().setHasSettings(true);
+                    }
+                    AlertsUtil.showSuccess("Configuracion guardada", "Tus categorias y estados quedaron listos.");
+                    NavigationUtil.closeModal((Stage) btnContinue.getScene().getWindow());
+                },
+                error -> {
+                    AlertsUtil.showError("Error", "No se pudo cerrar la configuracion.");
+                    System.out.println("Error al continuar desde settings: " + error.getMessage());
+                    setContinueDisabled(false);
+                }
+        );
     }
 
     private void configureLists() {
@@ -178,5 +239,21 @@ public class SettingsController {
         List<StatusModel> statuses = new ArrayList<>(session.getStatuses());
         listCategories.setItems(FXCollections.observableArrayList(categories));
         listStatuses.setItems(FXCollections.observableArrayList(statuses));
+    }
+
+    private void setCategoryControlsDisabled(boolean disabled) {
+        txtCategoryName.setDisable(disabled);
+        btnAddCategory.setDisable(disabled);
+        btnDeleteCategory.setDisable(disabled);
+    }
+
+    private void setStatusControlsDisabled(boolean disabled) {
+        txtStatusName.setDisable(disabled);
+        btnAddStatus.setDisable(disabled);
+        btnDeleteStatus.setDisable(disabled);
+    }
+
+    private void setContinueDisabled(boolean disabled) {
+        btnContinue.setDisable(disabled);
     }
 }
