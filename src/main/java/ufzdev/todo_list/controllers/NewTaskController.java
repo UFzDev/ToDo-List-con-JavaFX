@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,10 +17,11 @@ import ufzdev.todo_list.dao.CategoryDao;
 import ufzdev.todo_list.dao.CategoryFirestoreDao;
 import ufzdev.todo_list.dao.StatusDao;
 import ufzdev.todo_list.dao.StatusFirestoreDao;
-import ufzdev.todo_list.services.TaskService;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.StatusModel;
+import ufzdev.todo_list.models.TaskModel;
 import ufzdev.todo_list.models.UserModel;
+import ufzdev.todo_list.services.TaskService;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.TaskExecutorUtil;
@@ -30,10 +32,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@SuppressWarnings("unused")
 public class NewTaskController {
     @FXML
     private VBox rootVBox;
+    @FXML
+    private Label lblModalKicker;
+    @FXML
+    private Label lblModalTitle;
+    @FXML
+    private Label lblModalSubtitle;
     @FXML
     private TextField txtTaskName;
     @FXML
@@ -46,6 +53,8 @@ public class NewTaskController {
     private FlowPane categoriesPane;
     @FXML
     private Button btnSaveTask;
+    @FXML
+    private Button btnCancelTask;
 
     private final CategoryDao categoryDao = new CategoryFirestoreDao();
     private final StatusDao statusDao = new StatusFirestoreDao();
@@ -55,31 +64,35 @@ public class NewTaskController {
     public void initialize() {
         configureStatusCombo();
         loadCatalogs();
+        configureMode();
     }
 
     @FXML
     public void handleCreateTask() {
         btnSaveTask.setDisable(true);
+        btnCancelTask.setDisable(true);
+
         UserSessionUtil session = UserSessionUtil.getInstance();
         UserModel user = session.getUser();
+        TaskModel editingTask = taskService.getEditingTask();
 
         if (user == null) {
             AlertsUtil.showError("Sesion no disponible", "Inicia sesion nuevamente para guardar la tarea.");
-            btnSaveTask.setDisable(false);
+            restoreButtons();
             return;
         }
 
         String name = txtTaskName.getText() == null ? "" : txtTaskName.getText().trim();
         if (name.isBlank()) {
             AlertsUtil.showError("Nombre requerido", "Escribe un nombre para la tarea.");
-            btnSaveTask.setDisable(false);
+            restoreButtons();
             return;
         }
 
         StatusModel selectedStatus = cmbStatus.getValue();
         if (selectedStatus == null) {
             AlertsUtil.showError("Estado requerido", "Selecciona un estado para la tarea.");
-            btnSaveTask.setDisable(false);
+            restoreButtons();
             return;
         }
 
@@ -88,6 +101,30 @@ public class NewTaskController {
                 ? null
                 : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
         List<CategoryModel> selectedCategories = readSelectedCategories();
+
+        if (editingTask != null) {
+            TaskExecutorUtil.execute(
+                    () -> taskService.updateTask(
+                            editingTask,
+                            name,
+                            description,
+                            limitDate,
+                            selectedStatus.getName(),
+                            selectedCategories
+                    ),
+                    updatedTask -> {
+                        taskService.clearEditingTask();
+                        AlertsUtil.showSuccess("Tarea actualizada", "La tarea se editó correctamente.");
+                        NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
+                    },
+                    error -> {
+                        AlertsUtil.showError("Error al actualizar", "No se pudo editar la tarea.");
+                        System.out.println("Error actualizando tarea: " + error.getMessage());
+                        restoreButtons();
+                    }
+            );
+            return;
+        }
 
         TaskExecutorUtil.execute(
                 () -> taskService.createTask(
@@ -99,19 +136,21 @@ public class NewTaskController {
                         selectedCategories
                 ),
                 createdTask -> {
+                    taskService.clearEditingTask();
                     AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
                     NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
                 },
                 error -> {
-                    btnSaveTask.setDisable(false);
                     AlertsUtil.showError("Error al guardar", "No se pudo crear la tarea.");
                     System.out.println("Error guardando tarea: " + error.getMessage());
+                    restoreButtons();
                 }
         );
     }
 
     @FXML
     public void handleCancel() {
+        taskService.clearEditingTask();
         NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
     }
 
@@ -182,5 +221,65 @@ public class NewTaskController {
             }
         }
         return selected;
+    }
+
+    private void configureMode() {
+        TaskModel editingTask = taskService.getEditingTask();
+        if (editingTask == null) {
+            lblModalKicker.setText("NUEVA TAREA");
+            lblModalTitle.setText("Crea un pendiente claro");
+            lblModalSubtitle.setText("Llena los datos principales de la tarea para dejarla lista dentro de tu flujo de trabajo.");
+            btnSaveTask.setText("Guardar tarea");
+            return;
+        }
+
+        lblModalKicker.setText("EDITAR TAREA");
+        lblModalTitle.setText("Actualiza tu pendiente");
+        lblModalSubtitle.setText("Modifica los datos necesarios y guarda los cambios de la tarea.");
+        btnSaveTask.setText("Guardar cambios");
+
+        txtTaskName.setText(editingTask.getName());
+        txtTaskDescription.setText(editingTask.getDescription());
+        if (editingTask.getLimitDate() != null) {
+            dpLimitDate.setValue(editingTask.getLimitDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        }
+
+        for (StatusModel status : cmbStatus.getItems()) {
+            if (status != null && status.getName() != null && status.getName().equalsIgnoreCase(editingTask.getStatus())) {
+                cmbStatus.setValue(status);
+                break;
+            }
+        }
+
+        applySelectedCategories(editingTask.getCategory());
+    }
+
+    private void applySelectedCategories(List<CategoryModel> selectedCategories) {
+        if (selectedCategories == null || selectedCategories.isEmpty()) {
+            return;
+        }
+
+        for (javafx.scene.Node node : categoriesPane.getChildren()) {
+            if (!(node instanceof CheckBox checkBox)) {
+                continue;
+            }
+            Object data = checkBox.getUserData();
+            if (!(data instanceof CategoryModel categoryData) || categoryData.getName() == null) {
+                continue;
+            }
+
+            for (CategoryModel selected : selectedCategories) {
+                if (selected != null && selected.getName() != null
+                        && categoryData.getName().equalsIgnoreCase(selected.getName())) {
+                    checkBox.setSelected(true);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void restoreButtons() {
+        btnSaveTask.setDisable(false);
+        btnCancelTask.setDisable(false);
     }
 }

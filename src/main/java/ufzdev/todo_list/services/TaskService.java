@@ -28,6 +28,18 @@ public class TaskService {
         return new ArrayList<>(session.getStatuses());
     }
 
+    public TaskModel getEditingTask() {
+        return session.getEditingTask();
+    }
+
+    public void setEditingTask(TaskModel task) {
+        session.setEditingTask(task);
+    }
+
+    public void clearEditingTask() {
+        session.clearEditingTask();
+    }
+
     public TaskModel createTask(UserModel user,
                                 String name,
                                 String description,
@@ -47,6 +59,39 @@ public class TaskService {
         task.setId(id);
         session.addTask(task);
         return task;
+    }
+
+    public TaskModel updateTask(TaskModel existingTask,
+                                String name,
+                                String description,
+                                Date limitDate,
+                                String status,
+                                List<CategoryModel> categories) throws Exception {
+        if (existingTask == null || existingTask.getId() == null || existingTask.getId().isBlank()) {
+            return null;
+        }
+
+        TaskModel updatedTask = new TaskModel();
+        updatedTask.setId(existingTask.getId());
+        updatedTask.setUserId(existingTask.getUserId());
+        updatedTask.setCreatedAt(existingTask.getCreatedAt());
+        updatedTask.setName(name);
+        updatedTask.setDescription(description == null ? "" : description);
+        updatedTask.setStatus(status);
+        updatedTask.setLimitDate(limitDate);
+        updatedTask.setCategory(categories == null ? new ArrayList<>() : new ArrayList<>(categories));
+
+        taskDao.update(updatedTask);
+        session.updateTask(updatedTask);
+        return updatedTask;
+    }
+
+    public void deleteTask(TaskModel task) throws Exception {
+        if (task == null || task.getId() == null || task.getId().isBlank()) {
+            return;
+        }
+        taskDao.deleteById(task.getId());
+        session.removeTaskById(task.getId());
     }
 
     public List<TaskModel> filterTasks(String query, String categoryFilter, String statusFilter) {
@@ -103,4 +148,3 @@ public class TaskService {
         return statusFilter.equalsIgnoreCase(task.getStatus());
     }
 }
-

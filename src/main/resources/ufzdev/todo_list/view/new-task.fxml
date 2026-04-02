@@ -25,9 +25,9 @@
             <Insets top="26.0" right="26.0" bottom="22.0" left="26.0"/>
         </padding>
 
-        <Label text="NUEVA TAREA" styleClass="task-modal-kicker"/>
-        <Label text="Crea un pendiente claro" styleClass="task-modal-title" wrapText="true"/>
-        <Label text="Llena los datos principales de la tarea para dejarla lista dentro de tu flujo de trabajo."
+        <Label fx:id="lblModalKicker" text="NUEVA TAREA" styleClass="task-modal-kicker"/>
+        <Label fx:id="lblModalTitle" text="Crea un pendiente claro" styleClass="task-modal-title" wrapText="true"/>
+        <Label fx:id="lblModalSubtitle" text="Llena los datos principales de la tarea para dejarla lista dentro de tu flujo de trabajo."
                styleClass="task-modal-subtitle" wrapText="true"/>
     </VBox>
 
@@ -71,7 +71,7 @@
 
         <VBox spacing="12.0" styleClass="task-modal-footer">
             <Button fx:id="btnSaveTask" text="Guardar tarea" onAction="#handleCreateTask" styleClass="btn-primary, task-primary-button" maxWidth="1000"/>
-            <Button onAction="#handleCancel" text="Cancelar" styleClass="btn-tertiary, task-secondary-button" maxWidth="1000"/>
+            <Button fx:id="btnCancelTask" onAction="#handleCancel" text="Cancelar" styleClass="btn-tertiary, task-secondary-button" maxWidth="1000"/>
         </VBox>
     </VBox>
 </VBox>

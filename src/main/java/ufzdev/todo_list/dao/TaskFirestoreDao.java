@@ -75,6 +75,22 @@ public class TaskFirestoreDao implements TaskDao {
         db.collection(COLLECTION).document(taskId).delete().get();
     }
 
+    @Override
+    public void update(TaskModel taskModel) throws Exception {
+        if (taskModel == null || taskModel.getId() == null || taskModel.getId().isBlank()) {
+            return;
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("nombre", taskModel.getName());
+        data.put("descripcion", taskModel.getDescription());
+        data.put("estado", taskModel.getStatus());
+        data.put("limitDate", taskModel.getLimitDate());
+        data.put("categorias", extractCategoryNames(taskModel.getCategory()));
+
+        db.collection(COLLECTION).document(taskModel.getId()).update(data).get();
+    }
+
     private TaskModel mapToTask(DocumentSnapshot doc, String userId) {
         TaskModel task = new TaskModel();
         task.setId(doc.getId());

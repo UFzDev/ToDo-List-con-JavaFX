@@ -20,6 +20,7 @@ public class UserSessionUtil {
     private List<CategoryModel> categories = new ArrayList<>();
     private List<StatusModel> statuses = new ArrayList<>();
     private List<TaskModel> tasks = new ArrayList<>();
+    private TaskModel editingTask;
 
     private final CategoryDao categoryDao;
     private final StatusDao statusDao;
@@ -105,18 +106,37 @@ public class UserSessionUtil {
         }
     }
 
-    public synchronized boolean updateTaskStatus(String taskId, String newStatus) {
-        if (taskId == null || taskId.isBlank()) {
-            return false;
+    public synchronized void updateTask(TaskModel updatedTask) {
+        if (updatedTask == null || updatedTask.getId() == null || updatedTask.getId().isBlank()) {
+            return;
         }
 
-        for (TaskModel task : tasks) {
-            if (taskId.equals(task.getId())) {
-                task.setStatus(newStatus);
-                return true;
+        for (int i = 0; i < tasks.size(); i++) {
+            TaskModel current = tasks.get(i);
+            if (current != null && updatedTask.getId().equals(current.getId())) {
+                tasks.set(i, updatedTask);
+                return;
             }
         }
-        return false;
+    }
+
+    public synchronized void removeTaskById(String taskId) {
+        if (taskId == null || taskId.isBlank()) {
+            return;
+        }
+        tasks.removeIf(task -> task != null && taskId.equals(task.getId()));
+    }
+
+    public synchronized void setEditingTask(TaskModel task) {
+        this.editingTask = task;
+    }
+
+    public synchronized TaskModel getEditingTask() {
+        return editingTask;
+    }
+
+    public synchronized void clearEditingTask() {
+        editingTask = null;
     }
 
     public synchronized void cleanSession() {
@@ -124,5 +144,6 @@ public class UserSessionUtil {
         categories = new ArrayList<>();
         statuses = new ArrayList<>();
         tasks = new ArrayList<>();
+        editingTask = null;
     }
 }

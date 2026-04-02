@@ -13,7 +13,9 @@ import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.TaskModel;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.services.TaskService;
+import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
+import ufzdev.todo_list.util.TaskExecutorUtil;
 import ufzdev.todo_list.util.UserSessionUtil;
 
 import java.text.SimpleDateFormat;
@@ -68,7 +70,44 @@ public class TasksController {
 
     @FXML
     public void handleNewTask() {
+        taskService.clearEditingTask();
         NavigationUtil.goToNewTask();
+    }
+
+    @FXML
+    public void handleEditTask() {
+        TaskModel selected = tasksTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertsUtil.showError("Sin selección", "Selecciona una tarea para editar.");
+            return;
+        }
+
+        taskService.setEditingTask(selected);
+        NavigationUtil.goToNewTask();
+    }
+
+    @FXML
+    public void handleDeleteTask() {
+        TaskModel selected = tasksTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            AlertsUtil.showError("Sin selección", "Selecciona una tarea para eliminar.");
+            return;
+        }
+
+        TaskExecutorUtil.execute(
+                () -> {
+                    taskService.deleteTask(selected);
+                    return true;
+                },
+                ok -> {
+                    AlertsUtil.showSuccess("Tarea eliminada", "La tarea se eliminó correctamente.");
+                    refreshAfterModal();
+                },
+                error -> {
+                    AlertsUtil.showError("Error al eliminar", "No se pudo eliminar la tarea.");
+                    System.out.println("Error eliminando tarea: " + error.getMessage());
+                }
+        );
     }
 
     @FXML
@@ -152,7 +191,6 @@ public class TasksController {
         applyFilters();
     }
 
-    @SuppressWarnings("unused")
     private void setupRefreshOnWindowFocus() {
         lblUserName.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene == null) {

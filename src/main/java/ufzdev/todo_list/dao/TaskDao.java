@@ -9,6 +9,8 @@ public interface TaskDao {
 
     String create(TaskModel taskModel) throws Exception;
 
+    void update(TaskModel taskModel) throws Exception;
+
     void updateStatus(String taskId, String newStatus) throws Exception;
 
     void deleteById(String taskId) throws Exception;
