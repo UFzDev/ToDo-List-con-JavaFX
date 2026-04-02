@@ -78,7 +78,8 @@ public class TasksController {
     public void handleEditTask() {
         TaskModel selected = tasksTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            AlertsUtil.showError("Sin selección", "Selecciona una tarea para editar.");
+            AlertsUtil.showError("Sin selección",
+                    "Selecciona una tarea para editar.");
             return;
         }
 
@@ -90,7 +91,8 @@ public class TasksController {
     public void handleDeleteTask() {
         TaskModel selected = tasksTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            AlertsUtil.showError("Sin selección", "Selecciona una tarea para eliminar.");
+            AlertsUtil.showError("Sin selección",
+                    "Selecciona una tarea para eliminar.");
             return;
         }
 
