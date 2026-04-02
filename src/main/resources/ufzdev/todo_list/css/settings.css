@@ -1,9 +1,10 @@
+/* Vista principal */
 .settings-root {
     -fx-background-color: #f8f9fa;
 }
 
 .settings-title {
-    -fx-font-size: 34px;
+    -fx-font-size: 30px;
     -fx-font-weight: 800;
     -fx-text-fill: #0f172a;
 }
@@ -11,8 +12,85 @@
 .settings-subtitle {
     -fx-font-size: 14px;
     -fx-text-fill: #586064;
-    -fx-text-alignment: center;
-    -fx-alignment: center;
-    -fx-max-width: 520;
 }
 
+/* Scroll y contenido */
+.settings-scroll {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.settings-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.settings-content {
+    -fx-padding: 0;
+}
+
+.settings-sections {
+    -fx-alignment: top-center;
+}
+
+/* Tarjetas */
+.settings-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+    -fx-padding: 16;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 14, 0.18, 0, 4);
+}
+
+.settings-section-title {
+    -fx-font-size: 17px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #1e293b;
+}
+
+.settings-section-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+/* Lista */
+.settings-list {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #d7e1ea;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.settings-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-font-size: 13px;
+    -fx-padding: 9 12;
+}
+
+.settings-list .list-cell:filled:selected,
+.settings-list .list-cell:filled:selected:hover {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #0b4f8f;
+}
+
+.settings-list .list-cell:filled:hover {
+    -fx-background-color: #eef4fb;
+}
+
+/* Botones de accion */
+.settings-mini-btn {
+    -fx-min-width: 104;
+    -fx-pref-width: 104;
+}
+
+.settings-footer {
+    -fx-padding: 6 0 0 0;
+}
+
+.settings-cta {
+    -fx-min-width: 220;
+}

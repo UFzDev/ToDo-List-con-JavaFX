@@ -73,7 +73,7 @@ public class NavigationUtil {
     }
 
     public static void goToSettings() {
-        showModal("settings.fxml", "Configuración - ToDo List", 550, 800);
+        showModal("settings.fxml", "Configuración - ToDo List", 625, 725);
     }
 
 }
