@@ -1,46 +1,34 @@
 package ufzdev.todo_list.services;
 
-import com.google.cloud.firestore.Firestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
-import com.google.firebase.cloud.FirestoreClient;
+import ufzdev.todo_list.dao.UserDao;
+import ufzdev.todo_list.dao.UserFirestoreDao;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.util.AlertsUtil;
-import ufzdev.todo_list.config.FirebaseConfig;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class UserService {
+    private static final UserDao USER_DAO = new UserFirestoreDao();
+
     public static UserModel autenticate(UserModel userModel) {
         try {
-            // Verificamos que el usuario existe en Firebase Auth
             UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(userModel.getEmail());
             String uid = userRecord.getUid();
 
-            // Buscamos el documento del usuario en Firestore para validar la contraseña
-            Firestore db = FirebaseConfig.getInstance().getFirestore();
-            var docRef = db.collection("usuarios").document(uid).get().get();
-
-            if (docRef.exists()) {
-                String passDb = docRef.getString("password");
-
-                // Validamos la contraseña que viene en el objeto
-                if (userModel.getPassword().equals(passDb)) {
-                    userModel.setId(uid);
-                    userModel.setName(docRef.getString("nombre"));
-                    userModel.setUsername(docRef.getString("usuario"));
-
-                    Boolean settings = docRef.getBoolean("hasSettings");
-                    userModel.setHasSettings(settings != null && settings);
-                    // Retornamos el objeto completo para la sesión
-                    return userModel;
-                }
+            UserModel userInDb = USER_DAO.findById(uid);
+            if (userInDb == null) {
+                throw new Exception("Credenciales incorrectas");
             }
+
+            if (userModel.getPassword().equals(userInDb.getPassword())) {
+                userInDb.setEmail(userModel.getEmail());
+                return userInDb;
+            }
+
             throw new Exception("Credenciales incorrectas");
         } catch (Exception e) {
-            AlertsUtil.showError("Error de autenticación", "No se pudo autenticar. Verifique sus credenciales.");
-            System.out.println("Error durante la autenticación: " + e.getMessage());
+            AlertsUtil.showError("Error de autenticacion", "No se pudo autenticar. Verifique sus credenciales.");
+            System.out.println("Error durante la autenticacion: " + e.getMessage());
         }
         return null;
     }
@@ -58,16 +46,14 @@ public class UserService {
             return;
         }
         try {
-            Firestore db = FirebaseConfig.getInstance().getFirestore();
-            db.collection("usuarios").document(userId).update("hasSettings", true).get();
+            USER_DAO.updateHasSettings(userId, true);
         } catch (Exception e) {
-            AlertsUtil.showError("Error al guardar configuración", "No se pudo actualizar el estado de configuración.");
+            AlertsUtil.showError("Error al guardar configuracion", "No se pudo actualizar el estado de configuracion.");
             System.out.println("Error al completar settings: " + e.getMessage());
         }
     }
 
     public static void registerUser(UserModel userModel) throws Exception {
-        // Crear el usuario en Firebase Authentication
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(userModel.getEmail())
                 .setPassword(userModel.getPassword())
@@ -76,16 +62,6 @@ public class UserService {
         UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
         String uid = userRecord.getUid();
 
-        // Crear tambien en Firestore para que funcionen las validaciones de autenticación
-        Firestore db = FirestoreClient.getFirestore();
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("nombre", userModel.getName());
-        userData.put("usuario", userModel.getUsername());
-        userData.put("correo", userModel.getEmail());
-        userData.put("password", userModel.getPassword());
-        userData.put("hasSettings", false);
-
-        // Guardamos usando el UID como nombre del documento
-        db.collection("usuarios").document(uid).set(userData).get();
+        USER_DAO.create(uid, userModel);
     }
 }
