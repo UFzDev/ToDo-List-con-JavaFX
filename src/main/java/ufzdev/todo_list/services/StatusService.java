@@ -33,7 +33,12 @@ public class StatusService {
     }
 
     public void deleteStatusByName(String name) throws Exception {
-        statusDao.deleteByName(name);
+        UserModel user = session.getUser();
+        if (user == null) {
+            throw new Exception("Usuario no autenticado");
+        }
+
+        statusDao.deleteByUserIdAndName(user.getId(), name);
         session.removeStatusByName(name);
     }
 }

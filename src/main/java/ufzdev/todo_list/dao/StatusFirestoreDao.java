@@ -21,18 +21,6 @@ public class StatusFirestoreDao implements StatusDao {
     }
 
     @Override
-    public List<StatusModel> findAll() throws Exception {
-        QuerySnapshot snapshot = db.collection(COLLECTION).get().get();
-        List<StatusModel> statuses = new ArrayList<>();
-
-        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-            statuses.add(mapToStatus(doc));
-        }
-
-        return statuses;
-    }
-
-    @Override
     public List<StatusModel> findByUserId(String userId) throws Exception {
         if (userId == null || userId.isBlank()) {
             return new ArrayList<>();
@@ -66,21 +54,13 @@ public class StatusFirestoreDao implements StatusDao {
     }
 
     @Override
-    public void deleteByDocumentId(String documentId) throws Exception {
-        if (documentId == null || documentId.isBlank()) {
-            return;
-        }
-
-        db.collection(COLLECTION).document(documentId).delete().get();
-    }
-
-    @Override
-    public void deleteByName(String name) throws Exception {
-        if (name == null || name.isBlank()) {
+    public void deleteByUserIdAndName(String userId, String name) throws Exception {
+        if (userId == null || userId.isBlank() || name == null || name.isBlank()) {
             return;
         }
 
         QuerySnapshot snapshot = db.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
                 .whereEqualTo("nombre", name)
                 .get()
                 .get();
@@ -95,9 +75,7 @@ public class StatusFirestoreDao implements StatusDao {
 
         String id = doc.getString("id");
         item.setId(id == null || id.isBlank() ? doc.getId() : id);
-
-        String userId = doc.getString("userId");
-        item.setUserId(userId);
+        item.setUserId(doc.getString("userId"));
 
         String name = firstNonBlank(doc.getString("nombre"), doc.getString("name"));
         item.setName(name == null ? item.getId() : name);

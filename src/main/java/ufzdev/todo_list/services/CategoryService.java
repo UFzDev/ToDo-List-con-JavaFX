@@ -34,7 +34,12 @@ public class CategoryService {
     }
 
     public void deleteCategoryByName(String name) throws Exception {
-        categoryDao.deleteByName(name);
+        UserModel user = session.getUser();
+        if (user == null) {
+            throw new Exception("Usuario no autenticado");
+        }
+
+        categoryDao.deleteByUserIdAndName(user.getId(), name);
         session.removeCategoryByName(name);
     }
 }

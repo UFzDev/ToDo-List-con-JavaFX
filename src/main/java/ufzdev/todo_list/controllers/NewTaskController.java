@@ -13,10 +13,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import ufzdev.todo_list.dao.CategoryDao;
-import ufzdev.todo_list.dao.CategoryFirestoreDao;
-import ufzdev.todo_list.dao.StatusDao;
-import ufzdev.todo_list.dao.StatusFirestoreDao;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.StatusModel;
 import ufzdev.todo_list.models.TaskModel;
@@ -56,8 +52,6 @@ public class NewTaskController {
     @FXML
     private Button btnCancelTask;
 
-    private final CategoryDao categoryDao = new CategoryFirestoreDao();
-    private final StatusDao statusDao = new StatusFirestoreDao();
     private final TaskService taskService = new TaskService();
 
     @FXML
@@ -112,7 +106,7 @@ public class NewTaskController {
                             selectedStatus.getName(),
                             selectedCategories
                     ),
-                    updatedTask -> {
+                    ignored -> {
                         taskService.clearEditingTask();
                         AlertsUtil.showSuccess("Tarea actualizada", "La tarea se editó correctamente.");
                         NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
@@ -135,7 +129,7 @@ public class NewTaskController {
                         selectedStatus.getName(),
                         selectedCategories
                 ),
-                createdTask -> {
+                ignored -> {
                     taskService.clearEditingTask();
                     AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
                     NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
@@ -167,39 +161,22 @@ public class NewTaskController {
             }
         });
 
-        cmbStatus.setCellFactory(list -> new ListCell<>() {
-            @Override
-            protected void updateItem(StatusModel item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? "" : item.getName());
-            }
+        cmbStatus.setCellFactory(statusList -> {
+            statusList.getItems();
+            return new ListCell<>() {
+                @Override
+                protected void updateItem(StatusModel item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getName());
+                }
+            };
         });
     }
 
     private void loadCatalogs() {
         UserSessionUtil session = UserSessionUtil.getInstance();
-
-        try {
-            List<StatusModel> statuses = new ArrayList<>(session.getStatuses());
-            if (statuses.isEmpty()) {
-                statuses = statusDao.findAll();
-                session.getStatuses().clear();
-                session.getStatuses().addAll(statuses);
-            }
-
-            List<CategoryModel> categories = new ArrayList<>(session.getCategories());
-            if (categories.isEmpty()) {
-                categories = categoryDao.findAll();
-                session.getCategories().clear();
-                session.getCategories().addAll(categories);
-            }
-
-            cmbStatus.getItems().setAll(statuses);
-            renderCategoryChecks(categories);
-        } catch (Exception e) {
-            AlertsUtil.showError("Error de carga", "No se pudieron cargar categorias y estados.");
-            System.out.println("Error cargando catalogos de nueva tarea: " + e.getMessage());
-        }
+        cmbStatus.getItems().setAll(session.getStatuses());
+        renderCategoryChecks(session.getCategories());
     }
 
     private void renderCategoryChecks(List<CategoryModel> categories) {

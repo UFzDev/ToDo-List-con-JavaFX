@@ -58,15 +58,6 @@ public class TaskFirestoreDao implements TaskDao {
     }
 
     @Override
-    public void updateStatus(String taskId, String newStatus) throws Exception {
-        if (taskId == null || taskId.isBlank()) {
-            return;
-        }
-
-        db.collection(COLLECTION).document(taskId).update("estado", newStatus, "status", newStatus).get();
-    }
-
-    @Override
     public void deleteById(String taskId) throws Exception {
         if (taskId == null || taskId.isBlank()) {
             return;
@@ -84,7 +75,6 @@ public class TaskFirestoreDao implements TaskDao {
         Map<String, Object> data = new HashMap<>();
         data.put("nombre", taskModel.getName());
         data.put("descripcion", taskModel.getDescription());
-        data.put("estado", taskModel.getStatus());
         data.put("limitDate", taskModel.getLimitDate());
         data.put("categorias", extractCategoryNames(taskModel.getCategory()));
 

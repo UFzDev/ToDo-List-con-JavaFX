@@ -101,7 +101,7 @@ public class TasksController {
                     taskService.deleteTask(selected);
                     return true;
                 },
-                ok -> {
+                ignored -> {
                     AlertsUtil.showSuccess("Tarea eliminada", "La tarea se eliminó correctamente.");
                     refreshAfterModal();
                 },
@@ -124,7 +124,7 @@ public class TasksController {
                     UserSessionUtil.getInstance().cleanSession();
                     return true;
                 },
-                success -> {
+                ignored -> {
                     AlertsUtil.showSuccess("Sesión cerrada", "Has cerrado sesión correctamente.");
                     Stage stage = (Stage) lblUserName.getScene().getWindow();
                     NavigationUtil.goToLogin(stage);
@@ -213,15 +213,15 @@ public class TasksController {
     }
 
     private void setupRefreshOnWindowFocus() {
-        lblUserName.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene == null) {
+        lblUserName.sceneProperty().addListener((observableScene, oldScene, newScene) -> {
+            if (newScene == null || oldScene == newScene || observableScene == null) {
                 return;
             }
 
             Platform.runLater(() -> {
                 if (newScene.getWindow() instanceof Stage stage) {
-                    stage.focusedProperty().addListener((focusObs, wasFocused, isFocused) -> {
-                        if (isFocused) {
+                    stage.focusedProperty().addListener((observableFocus, wasFocused, isFocused) -> {
+                        if (observableFocus != null && !wasFocused && isFocused) {
                             refreshAfterModal();
                         }
                     });

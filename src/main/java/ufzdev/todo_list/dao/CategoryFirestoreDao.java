@@ -21,18 +21,6 @@ public class CategoryFirestoreDao implements CategoryDao {
     }
 
     @Override
-    public List<CategoryModel> findAll() throws Exception {
-        QuerySnapshot snapshot = db.collection(COLLECTION).get().get();
-        List<CategoryModel> categories = new ArrayList<>();
-
-        for (DocumentSnapshot doc : snapshot.getDocuments()) {
-            categories.add(mapToCategory(doc));
-        }
-
-        return categories;
-    }
-
-    @Override
     public List<CategoryModel> findByUserId(String userId) throws Exception {
         if (userId == null || userId.isBlank()) {
             return new ArrayList<>();
@@ -67,21 +55,13 @@ public class CategoryFirestoreDao implements CategoryDao {
     }
 
     @Override
-    public void deleteByDocumentId(String documentId) throws Exception {
-        if (documentId == null || documentId.isBlank()) {
-            return;
-        }
-
-        db.collection(COLLECTION).document(documentId).delete().get();
-    }
-
-    @Override
-    public void deleteByName(String name) throws Exception {
-        if (name == null || name.isBlank()) {
+    public void deleteByUserIdAndName(String userId, String name) throws Exception {
+        if (userId == null || userId.isBlank() || name == null || name.isBlank()) {
             return;
         }
 
         QuerySnapshot snapshot = db.collection(COLLECTION)
+                .whereEqualTo("userId", userId)
                 .whereEqualTo("nombre", name)
                 .get()
                 .get();
@@ -95,9 +75,7 @@ public class CategoryFirestoreDao implements CategoryDao {
         CategoryModel item = new CategoryModel();
         Long id = doc.getLong("id");
         item.setId(id == null ? 0 : id.intValue());
-
-        String userId = doc.getString("userId");
-        item.setUserId(userId);
+        item.setUserId(doc.getString("userId"));
 
         String name = firstNonBlank(doc.getString("nombre"), doc.getString("name"));
         item.setName(name == null ? doc.getId() : name);

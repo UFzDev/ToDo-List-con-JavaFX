@@ -16,10 +16,6 @@ public class TaskService {
     private final TaskDao taskDao = new TaskFirestoreDao();
     private final UserSessionUtil session = UserSessionUtil.getInstance();
 
-    public List<TaskModel> getSessionTasks() {
-        return new ArrayList<>(session.getTasks());
-    }
-
     public List<CategoryModel> getSessionCategories() {
         return new ArrayList<>(session.getCategories());
     }
