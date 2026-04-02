@@ -94,8 +94,8 @@ public class TaskFirestoreDao implements TaskDao {
         task.setCreatedAt(createdAt);
         task.setLimitDate(limitDate);
 
-        List<?> storedCategories = doc.get("categorias", List.class);
-        if (storedCategories != null) {
+        Object storedCategoriesRaw = doc.get("categorias");
+        if (storedCategoriesRaw instanceof List<?> storedCategories) {
             List<CategoryModel> categories = new ArrayList<>();
             for (Object value : storedCategories) {
                 if (value != null) {

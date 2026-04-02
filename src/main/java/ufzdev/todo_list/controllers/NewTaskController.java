@@ -16,11 +16,9 @@ import ufzdev.todo_list.dao.CategoryDao;
 import ufzdev.todo_list.dao.CategoryFirestoreDao;
 import ufzdev.todo_list.dao.StatusDao;
 import ufzdev.todo_list.dao.StatusFirestoreDao;
-import ufzdev.todo_list.dao.TaskDao;
-import ufzdev.todo_list.dao.TaskFirestoreDao;
+import ufzdev.todo_list.services.TaskService;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.StatusModel;
-import ufzdev.todo_list.models.TaskModel;
 import ufzdev.todo_list.models.UserModel;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
@@ -50,7 +48,7 @@ public class NewTaskController {
 
     private final CategoryDao categoryDao = new CategoryFirestoreDao();
     private final StatusDao statusDao = new StatusFirestoreDao();
-    private final TaskDao taskDao = new TaskFirestoreDao();
+    private final TaskService taskService = new TaskService();
 
     @FXML
     public void initialize() {
@@ -85,18 +83,14 @@ public class NewTaskController {
         }
 
         try {
-            TaskModel task = new TaskModel();
-            task.setUserId(user.getId());
-            task.setName(name);
-            task.setDescription(txtTaskDescription.getText() == null ? "" : txtTaskDescription.getText().trim());
-            task.setStatus(selectedStatus.getName());
-            task.setCreatedAt(new Date());
-            task.setLimitDate(dpLimitDate.getValue() == null ? null : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-            task.setCategory(readSelectedCategories());
-
-            String taskId = taskDao.create(task);
-            task.setId(taskId);
-            session.addTask(task);
+            taskService.createTask(
+                    user,
+                    name,
+                    txtTaskDescription.getText() == null ? "" : txtTaskDescription.getText().trim(),
+                    dpLimitDate.getValue() == null ? null : Date.from(dpLimitDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                    selectedStatus.getName(),
+                    readSelectedCategories()
+            );
 
             AlertsUtil.showSuccess("Tarea guardada", "La tarea se creó correctamente.");
             NavigationUtil.closeModal((Stage) rootVBox.getScene().getWindow());
