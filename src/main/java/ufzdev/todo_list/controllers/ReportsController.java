@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ufzdev.todo_list.models.CategoryModel;
 import ufzdev.todo_list.models.StatusModel;
 import ufzdev.todo_list.models.UserModel;
+import ufzdev.todo_list.services.ReportService;
 import ufzdev.todo_list.util.AlertsUtil;
 import ufzdev.todo_list.util.NavigationUtil;
 import ufzdev.todo_list.util.TaskExecutorUtil;
@@ -29,6 +30,8 @@ public class ReportsController {
 
     @FXML
     private VBox statusesBox;
+
+    private final ReportService reportService = new ReportService();
 
     @FXML
     public void initialize() {
@@ -72,12 +75,12 @@ public class ReportsController {
 
     @FXML
     public void handleCreateExcelReport() {
-        System.out.println("Crear reporte en Excel: pendiente de implementación.");
+        generateReport("XLSX");
     }
 
     @FXML
     public void handleCreatePdfReport() {
-        System.out.println("Crear reporte en PDF: pendiente de implementación.");
+        generateReport("PDF");
     }
 
     private void loadUserName() {
@@ -163,5 +166,43 @@ public class ReportsController {
             return null;
         }
         return (Stage) rootPane.getScene().getWindow();
+    }
+
+    private void generateReport(String type) {
+        List<String> categoryFilters = readSelectedValues(categoriesBox);
+        List<String> statusFilters = readSelectedValues(statusesBox);
+
+        TaskExecutorUtil.execute(
+                () -> {
+                    if ("PDF".equalsIgnoreCase(type)) {
+                        return reportService.generatePdf(categoryFilters, statusFilters);
+                    }
+                    return reportService.generateExcel(categoryFilters, statusFilters);
+                },
+                reportPath -> AlertsUtil.showSuccess(
+                        "Reporte generado",
+                        "Archivo creado en: " + reportPath
+                ),
+                error -> AlertsUtil.showError(
+                        "Error al generar reporte",
+                        error.getMessage() == null ? "No se pudo generar el reporte." : error.getMessage()
+                )
+        );
+    }
+
+    private List<String> readSelectedValues(VBox container) {
+        List<String> values = new ArrayList<>();
+
+        for (javafx.scene.Node node : container.getChildren()) {
+            if (!(node instanceof CheckBox checkBox) || !checkBox.isSelected()) {
+                continue;
+            }
+            String text = checkBox.getText();
+            if (text != null && !text.isBlank()) {
+                values.add(text.trim());
+            }
+        }
+
+        return values;
     }
 }

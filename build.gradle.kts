@@ -41,6 +41,9 @@ dependencies {
     runtimeOnly("org.slf4j:slf4j-simple:2.0.16")
     implementation("com.google.firebase:firebase-admin:9.8.0")
     implementation("org.controlsfx:controlsfx:11.1.2")
+    implementation("com.itextpdf:kernel:8.0.5")
+    implementation("com.itextpdf:layout:8.0.5")
+    implementation("org.apache.poi:poi-ooxml:5.3.0")
 }
 
 tasks.withType<Test> {
