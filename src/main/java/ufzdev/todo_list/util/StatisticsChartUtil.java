@@ -32,10 +32,11 @@ public final class StatisticsChartUtil {
         LocalDate now = LocalDate.now();
 
         for (TaskModel task : source) {
-            if (task == null || task.getCreatedAt() == null) {
+            if (task == null || task.getLimitDate() == null) {
                 continue;
             }
-            LocalDate taskDate = toLocalDate(task.getCreatedAt());
+
+            LocalDate taskDate = toLocalDate(task.getLimitDate());
             if (isInsidePeriod(taskDate, now, currentPeriod)) {
                 filtered.add(task);
             }
