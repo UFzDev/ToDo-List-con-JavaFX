@@ -25,7 +25,7 @@
                     </graphic>
                 </Button>
                 <Button alignment="BASELINE_LEFT" graphicTextGap="12.0" mnemonicParsing="false"
-                        styleClass="nav-button" text="Estadísticas">
+                        styleClass="nav-button" text="Estadísticas" onAction="#handleGoToStats">
                     <graphic>
                         <SVGPath content="M21 10.12h-6.78l2.74-2.82c-2.73-2.7-7.15-2.8-9.88-.1-2.73 2.71-2.73 7.08 0 9.79s7.15 2.71 9.88 0C18.32 15.65 19 14.08 19 12.1h2c0 2.39-.88 4.68-2.63 6.41-3.51 3.48-9.21 3.48-12.72 0s-3.51-9.11 0-12.59c3.51-3.48 9.21-3.48 12.72 0L21 3.12v7z" fill="#64748b" scaleX="0.7" scaleY="0.7" />
                     </graphic>

@@ -48,6 +48,14 @@ public class ReportsController {
     }
 
     @FXML
+    public void handleGoToStats() {
+        Stage stage = getCurrentStage();
+        if (stage != null) {
+            NavigationUtil.goToStats(stage);
+        }
+    }
+
+    @FXML
     public void handleOpenSettings() {
         NavigationUtil.goToSettings();
     }

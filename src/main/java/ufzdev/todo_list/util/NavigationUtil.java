@@ -43,6 +43,10 @@ public class NavigationUtil {
         renderView(stage, "reports.fxml", "Reportes - ToDo List", 1400, 900);
     }
 
+    public static void goToStats(Stage stage) {
+        renderView(stage, "stats.fxml", "Estadisticas - ToDo List", 1400, 900);
+    }
+
 
     private static void showModal(String fxmlFile, String title, int width, int height) {
         try {

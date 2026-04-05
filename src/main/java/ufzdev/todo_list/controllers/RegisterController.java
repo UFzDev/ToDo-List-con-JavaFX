@@ -51,6 +51,7 @@ public class RegisterController {
                     AlertsUtil.showSuccess("Registro exitoso", "Bienvenido a ToDo List, " + newUserModel.getName() + "!");
                     System.out.println("Registro exitoso en Firebase para: " + newUserModel.getName());
                     btnRegister.setDisable(false);
+                    handleCancel();
                 },
                 error -> {
                     AlertsUtil.showError("Error durante el registro", "Error: " + error.getMessage());
